@@ -1,7 +1,9 @@
-﻿namespace Recipedia.Data.Services
+﻿using Recipedia.Models;
+
+namespace Recipedia.Data.Services
 {
 	public interface IGeminiService
 	{
-		Task<string> GenerateRecipeAsync(string ingredients, string category, string difficulty);
+		Task<GeneratedRecipeResultDTO> GenerateRecipeAsync(string ingredients, string category, string difficulty);
 	}
 }

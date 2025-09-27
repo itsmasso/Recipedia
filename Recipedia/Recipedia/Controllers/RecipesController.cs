@@ -8,8 +8,8 @@ namespace Recipedia.Controllers
 	public class RecipesController : Controller
 	{
 		private readonly RecipediaAppContext _context;
-		private readonly GeminiService _geminiService;
-		public RecipesController(RecipediaAppContext context, GeminiService geminiService)
+		private readonly IGeminiService _geminiService;
+		public RecipesController(RecipediaAppContext context, IGeminiService geminiService)
 		{
 			_context = context;
 			_geminiService = geminiService;
@@ -55,27 +55,34 @@ namespace Recipedia.Controllers
 
 			return View(recipe);
 		}
-
+		
 		public IActionResult GenerateRecipe()
 		{
 			return View();
 		}
-
+	
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> GenerateRecipe(GenerateRecipeInputModel input)
 		{
-			if (!ModelState.IsValid)
+            Console.WriteLine("🎯 POST GenerateRecipe hit!");
+            if (!ModelState.IsValid)
 			{
 				return View(input);
 			}
 
 			//call and fetch gemini
 			var recipe = await _geminiService.GenerateRecipeAsync(input.IngredientsTags, input.Category, input.Difficulty);
-			
+            if (recipe == null)
+            {
+                ViewBag.Error = "Failed to generate recipe. Please try again.";
+                return View();
+            }
 
-			return View();
+            return View("GeneratedRecipeResult", recipe);
 		}
+	
+
 
 	}
 }

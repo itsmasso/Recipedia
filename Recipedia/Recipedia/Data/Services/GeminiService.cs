@@ -1,8 +1,9 @@
 ﻿using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Diagnostics;
+using Recipedia.Models;
 
 namespace Recipedia.Data.Services
 {
@@ -10,60 +11,139 @@ namespace Recipedia.Data.Services
 	{
 		private readonly HttpClient _http;
 		private readonly string _apiKey;
-		private readonly string _baseUrl;
 
-		private static readonly string[] Categories = { "Dessert, Dinner, Lunch, Snack, Breakfast, Drink" };
-		private static readonly string[] Difficulties = { "Easy, Medium, Hard" };
+		private static readonly string[] Categories = { "Dessert", "Dinner", "Lunch", "Snack", "Breakfast", "Drink" };
+		private static readonly string[] Difficulties = { "Easy", "Medium", "Hard" };
 
 		public GeminiService(HttpClient http, IConfiguration config)
 		{
 			_http = http;
 			_apiKey = config["Gemini:ApiKey"];
-			_baseUrl = config["Gemini:BaseUrl"];
-
 		}
 
-		public async Task<string> GenerateRecipeAsync(string ingredients, string category, string difficulty)
+		public async Task<GeneratedRecipeResultDTO> GenerateRecipeAsync(string ingredients, string category, string difficulty)
 		{
-			Random random = new Random();
-			var categoryValue = category ?? Categories[random.Next(Categories.Length)];
-			var difficultyValue = difficulty ?? Difficulties[random.Next(Difficulties.Length)];
-
-			var prompt = $"Generate a recipe with a title, ingredients, instructions, cook time. " +
-						$"Ingredients: {ingredients}." +
-						$"Category: {categoryValue}" +
-						$"Category: {difficultyValue}";
-
-			var requestBody = new
+			try
 			{
-				model = "gemini-2.0-flash",
-				messages = new[]
+				Random random = new Random();
+
+				// Handle "Random" values
+				if (category == "RandomCategory" || string.IsNullOrEmpty(category))
+					category = Categories[random.Next(Categories.Length)];
+
+				if (difficulty == "RandomDifficulty" || string.IsNullOrEmpty(difficulty))
+					difficulty = Difficulties[random.Next(Difficulties.Length)];
+
+				var prompt = $@"
+					Generate a {difficulty} {category} recipe using these ingredients: {ingredients}.
+					Return the response ONLY in this strict JSON format with no additional text:
+
+					{{
+					  ""Title"": ""Recipe title"",
+					  ""Ingredients"": [""ingredient1"", ""ingredient2""],
+					  ""Instructions"": [""step1"", ""step2""]
+					}}";
+
+				//Create request body
+				var requestBody = new
 				{
-					new { role = "system", content = "You are a recipe generator." },
-					new { role = "user", content = prompt }
+					contents = new[]
+					{
+						new
+						{
+							parts = new[]
+							{
+								new { text = prompt }
+							}
+						}
+					},
+					generationConfig = new
+					{
+						temperature = 0.7,
+						topK = 40,
+						topP = 0.95,
+						maxOutputTokens = 1024,
+					}
+				};
+
+				//Create HTTP request
+				var url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
+				var httpRequest = new HttpRequestMessage(HttpMethod.Post, url);
+				httpRequest.Headers.Add("X-goog-api-key", _apiKey);
+				httpRequest.Content = new StringContent(
+					JsonSerializer.Serialize(requestBody),
+					Encoding.UTF8,
+					"application/json"
+				);
+
+				//send request
+				var response = await _http.SendAsync(httpRequest);
+				var responseContent = await response.Content.ReadAsStringAsync();
+
+				response.EnsureSuccessStatusCode();
+
+				//Parse Gemini API response
+				using var doc = JsonDocument.Parse(responseContent);
+				var content = doc.RootElement
+					.GetProperty("candidates")[0]
+					.GetProperty("content")
+					.GetProperty("parts")[0]
+					.GetProperty("text")
+					.GetString();
+
+				if (string.IsNullOrWhiteSpace(content))
+				{
+					return CreateFallbackRecipe("No content generated");
 				}
-				//add other paramters here
-			};
-			var httpRequest = new HttpRequestMessage(HttpMethod.Post, $"{_baseUrl}chat/completions");
-			httpRequest.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _apiKey);
-			httpRequest.Content = new StringContent(JsonSerializer.Serialize(requestBody), Encoding.UTF8, "application/json");
+				Debug.WriteLine(content);
+				//Clean and parse JSON response
+				var jsonStart = content.IndexOf('{');
+				var jsonEnd = content.LastIndexOf('}');
+				if (jsonStart >= 0 && jsonEnd > jsonStart)
+				{
+					content = content.Substring(jsonStart, jsonEnd - jsonStart + 1);
+				}
 
-			var response = await _http.SendAsync(httpRequest);
-			response.EnsureSuccessStatusCode();
-
-			var json = await response.Content.ReadAsStringAsync();
-
-			// parse out the content from response JSON
-			using var doc = JsonDocument.Parse(json);
-			var content = doc.RootElement
-				.GetProperty("choices")[0]
-				.GetProperty("message")
-				.GetProperty("content")
-				.GetString();
-
-			return content ?? "No Content";
-
+				var generatedRecipe = JsonSerializer.Deserialize<GeneratedRecipeResultDTO>(content);
+				return generatedRecipe ?? CreateFallbackRecipe("Failed to parse recipe");
+			}
+			catch (HttpRequestException ex)
+			{
+				Debug.WriteLine($"HTTP Error: {ex.Message}");
+				return CreateFallbackRecipe($"API Error: {ex.Message}");
+			}
+			catch (JsonException ex)
+			{
+				Debug.WriteLine($"JSON Parse Error: {ex.Message}");
+				return CreateFallbackRecipe($"Parse Error: {ex.Message}");
+			}
+			catch (Exception ex)
+			{
+				Debug.WriteLine($"General Error: {ex.Message}");
+				return CreateFallbackRecipe($"Error: {ex.Message}");
+			}
 		}
-		
+
+		private GeneratedRecipeResultDTO CreateFallbackRecipe(string error)
+		{
+			return new GeneratedRecipeResultDTO
+			{
+				Title = "Sample Recipe (API Error)",
+				Ingredients = new List<string>
+				{
+					"2 cups flour",
+					"1 cup sugar",
+					"2 eggs",
+					"1 cup milk"
+				},
+				Instructions = new List<string>
+				{
+					"Mix dry ingredients in a bowl",
+					"Add wet ingredients and mix well",
+					"Cook according to recipe type",
+					$"Note: {error}"
+				}
+			};
+		}
 	}
 }

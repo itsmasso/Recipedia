@@ -1,13 +1,23 @@
-﻿@model GeneratedRecipeResult
+﻿@model Recipedia.Models.GeneratedRecipeResultDTO
 
 <div class="container mt-4">
     <h1>@Model.Title</h1>
 
     <h4>Ingredients</h4>
-    <pre>@Model.Ingredients</pre>
+    <ul>
+        @foreach (var ingredient in Model.Ingredients)
+        {
+            <li>@ingredient</li>
+        }
+    </ul>
 
     <h4>Instructions</h4>
-    <pre>@Model.Instructions</pre>
+    <ol>
+        @foreach (var step in Model.Instructions)
+        {
+            <li>@step</li>
+        }
+    </ol>
 
     <div class="mt-3">
         <a asp-action="GenerateRecipe" class="btn btn-secondary">🔙 Back</a>

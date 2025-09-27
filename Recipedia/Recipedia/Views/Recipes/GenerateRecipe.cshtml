@@ -1,10 +1,11 @@
-﻿@model GenerateRecipeInputModel;
+﻿@model Recipedia.Models.GenerateRecipeInputModel;
 
 <div class="generate-recipe-body">
 	<h1>Generate a Recipe</h1>
 	<p>List ingredients you have in your home!</p>
 	
 	<form asp-action="GenerateRecipe" method="post">
+		@Html.AntiForgeryToken()
 		<div>
 			<label for="categorySelect" class="form-label">Category</label>
 			<select asp-for="Category" id="categorySelect" name="Category" class="form-select">
@@ -32,7 +33,7 @@
 			<div id="tagsContainer" style="margin-top:10px;"></div>
 		</div>
 		<!-- Hidden input to submit tags back to server -->
-		<input type="hidden" id="tagsHidden" name="Tags" />
+		<input type="hidden" id="tagsHidden" name="IngredientsTags" asp-for="IngredientsTags" />
 		<button type="submit" class="btn btn-primary mt-3">Generate Recipe</button>
 	</form>
 	

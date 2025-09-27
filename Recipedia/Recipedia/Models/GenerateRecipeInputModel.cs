@@ -7,6 +7,5 @@ namespace Recipedia.Models
 		public string IngredientsTags { get; set; }
 		public string Category { get; set; }
 		public string Difficulty { get; set; }
-
-	}
+    }
 }

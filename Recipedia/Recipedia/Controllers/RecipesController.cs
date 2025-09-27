@@ -65,7 +65,6 @@ namespace Recipedia.Controllers
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> GenerateRecipe(GenerateRecipeInputModel input)
 		{
-            Console.WriteLine("🎯 POST GenerateRecipe hit!");
             if (!ModelState.IsValid)
 			{
 				return View(input);
@@ -81,6 +80,32 @@ namespace Recipedia.Controllers
 
             return View("GeneratedRecipeResult", recipe);
 		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public IActionResult SaveRecipe(GeneratedRecipeResultDTO generatedRecipe)
+		{
+			if (ModelState.IsValid)
+			{
+                //Map DTO to Entity
+                var recipe = new Recipe
+                {
+                    Title = generatedRecipe.Title,
+                    Ingredients = string.Join(", ", generatedRecipe.Ingredients ?? new List<string>()),
+                    Instructions = string.Join("\n", generatedRecipe.Instructions ?? new List<string>()),
+                    Category = generatedRecipe.Category,
+                    CookTimeMinutes = generatedRecipe.CookTimeMinutes,
+                    Difficulty = generatedRecipe.Difficulty,
+					//add default image here
+                };
+
+                _context.Recipes.Add(recipe);
+                _context.SaveChanges();
+                
+            }
+            return RedirectToAction(nameof(Index)); //re direct user back to recipes list
+
+        }
 	
 
 

@@ -36,12 +36,15 @@ namespace Recipedia.Data.Services
 
 				var prompt = $@"
 					Generate a {difficulty} {category} recipe using these ingredients: {ingredients}.
+					Specify the estimated cook time in minutes.
 					Return the response ONLY in this strict JSON format with no additional text:
+					Do NOT include Category or Difficulty in the JSON. They will be handled separately:
 
 					{{
 					  ""Title"": ""Recipe title"",
 					  ""Ingredients"": [""ingredient1"", ""ingredient2""],
-					  ""Instructions"": [""step1"", ""step2""]
+					  ""Instructions"": [""step1"", ""step2""],
+					  ""CookTimeMinutes"": 0
 					}}";
 
 				//Create request body
@@ -104,8 +107,13 @@ namespace Recipedia.Data.Services
 					content = content.Substring(jsonStart, jsonEnd - jsonStart + 1);
 				}
 
-				var generatedRecipe = JsonSerializer.Deserialize<GeneratedRecipeResultDTO>(content);
-				return generatedRecipe ?? CreateFallbackRecipe("Failed to parse recipe");
+                var generatedRecipe = JsonSerializer.Deserialize<GeneratedRecipeResultDTO>(content)
+                      ?? new GeneratedRecipeResultDTO();
+
+                generatedRecipe.Difficulty = difficulty;
+                generatedRecipe.Category = category;
+
+                return generatedRecipe ?? CreateFallbackRecipe("Failed to parse recipe");
 			}
 			catch (HttpRequestException ex)
 			{

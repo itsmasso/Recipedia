@@ -1,0 +1,15 @@
+﻿@model GeneratedRecipeResult
+
+<div class="container mt-4">
+    <h1>@Model.Title</h1>
+
+    <h4>Ingredients</h4>
+    <pre>@Model.Ingredients</pre>
+
+    <h4>Instructions</h4>
+    <pre>@Model.Instructions</pre>
+
+    <div class="mt-3">
+        <a asp-action="GenerateRecipe" class="btn btn-secondary">🔙 Back</a>
+    </div>
+</div>

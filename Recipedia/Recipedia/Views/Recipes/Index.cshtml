@@ -1,0 +1,18 @@
+﻿@model IEnumerable<Recipedia.Models.Recipe>
+
+<h2>Recipes</h2>
+
+<a asp-action="Create" class="btn">Add Recipe</a>
+
+<div class="recipe-grid">
+	@foreach(var recipe in Model)
+	{
+		<div class="recipe-card">
+			<h3>
+				<a asp-action="RecipeDetails" asp-route-id="@recipe.Id">
+					@recipe.Title
+				</a>
+			</h3>
+		</div>
+	}
+</div>

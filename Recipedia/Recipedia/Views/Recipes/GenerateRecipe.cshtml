@@ -1,0 +1,90 @@
+﻿@model GenerateRecipeInputModel;
+
+<div class="generate-recipe-body">
+	<h1>Generate a Recipe</h1>
+	<p>List ingredients you have in your home!</p>
+	
+	<form asp-action="GenerateRecipe" method="post">
+		<div>
+			<label for="categorySelect" class="form-label">Category</label>
+			<select asp-for="Category" id="categorySelect" name="Category" class="form-select">
+				<option value="RandomCategory">Random Category</option>
+				<option value="Dessert">Dessert</option>
+				<option value="Breakfast">Breakfast</option>
+				<option value="Lunch">Lunch</option>
+				<option value="Dinner">Dinner</option>
+			</select>
+		</div>
+
+		<div>
+			<label for="difficultySelect" class="form-label">Difficulty</label>
+			<select asp-for="Difficulty" id="difficultySelect" name="Difficulty" class="form-select">
+				<option value="RandomDifficulty">Random Difficulty</option>
+				<option value="Easy">Easy</option>
+				<option value="Medium">Medium</option>
+				<option value="Hard">Hard</option>
+			</select>
+		</div>
+
+
+		<div>
+			<input type="text" id="tagInput" placeholder="Type and press Enter" class="ai-input-box" />
+			<div id="tagsContainer" style="margin-top:10px;"></div>
+		</div>
+		<!-- Hidden input to submit tags back to server -->
+		<input type="hidden" id="tagsHidden" name="Tags" />
+		<button type="submit" class="btn btn-primary mt-3">Generate Recipe</button>
+	</form>
+	
+
+</div>
+
+<script>
+	const tagInput = document.getElementById("tagInput");
+	const tagsContainer = document.getElementById("tagsContainer");
+	const tagsHidden = document.getElementById("tagsHidden");
+
+	let tags = [];
+
+	tagInput.addEventListener("keypress", (e) => {
+		if (e.key == "Enter") {
+			e.preventDefault();
+			const value = tagInput.value.trim(); //set value of tag from input
+
+			//if not empty/null and tag is not existing, add to tag list, render, and reset input
+			if(value && !tags.includes(value)){
+				tags.push(value);
+				RenderTags();
+				tagInput.value = "";
+			}
+		}
+	});
+
+	function RenderTags() {
+		tagsContainer.innerHTML = "";
+		tags.forEach((tag, index) => {
+			const tagElement = document.createElement("span");
+			tagElement.textContent = tag;
+			tagElement.className = "badge bg-primary me-1";
+
+			//Add remove button
+			const removeBtn = document.createElement("button");
+			removeBtn.textContent = "×";
+			removeBtn.className = "btn btn-sm btn-light ms-1";
+			removeBtn.onclick = () => {
+				tags.splice(index, 1);
+				RenderTags();
+			};
+
+			const wrapper = document.createElement("div");
+			wrapper.className = "d-inline-flex align-items-center me-2 mb-2 p-1 border rounded";
+			wrapper.appendChild(tagElement);
+			wrapper.appendChild(removeBtn);
+
+			tagsContainer.appendChild(wrapper);
+		});
+
+		//Update hidden input for form submission
+		tagsHidden.value = tags.join(",");
+	}
+</script>

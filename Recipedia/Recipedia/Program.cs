@@ -1,7 +1,13 @@
+using Microsoft.EntityFrameworkCore;
+using Recipedia.Data;
+using Recipedia.Data.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddDbContext<RecipediaAppContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddHttpClient<IGeminiService, GeminiService>();
 
 var app = builder.Build();
 

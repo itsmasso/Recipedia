@@ -40,6 +40,19 @@ namespace Recipedia.Controllers
 			return View(recipe);
 		}
 
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> DeleteRecipe(int id)
+		{
+			var recipe = await _context.Recipes.FindAsync(id);
+			if(recipe != null)
+			{
+				_context.Recipes.Remove(recipe);
+				await _context.SaveChangesAsync();
+			}
+			return RedirectToAction(nameof(Index));
+		}
+
 		public async Task<IActionResult> RecipeDetails(int? id)
 		{
 			if(id == null)

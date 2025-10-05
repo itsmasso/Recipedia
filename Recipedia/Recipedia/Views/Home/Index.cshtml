@@ -3,17 +3,16 @@
 <h2>Find a recipe</h2>
 
 <div>
-	<form asp-action="Search" method="post" id="searchForm">
-		<div class="mb-3">
-			<div>
-				<input type="text" id="tagInput" placeholder="Type and press Enter" class="form-control" />
-				<div id="tagsContainer" style="margin-top:10px;"></div>
-			</div>
-			<!-- Hidden input to submit tags back to server -->
-			<input type="hidden" id="tagsHidden" name="ingredients"/>
-		</div>
-		<button type="submit" class="btn btn-primary mt-3">Search</button>
-	</form>
+    <form asp-action="Search" method="post" id="searchForm">
+        <div>
+            <input type="text" id="tagInput" placeholder="Type and press Enter" class="form-control" />
+            <div id="tagsContainer" style="margin-top:10px;"></div>
+            <input type="hidden" id="tagsHidden" name="ingredients" />
+        </div>
+
+        <button type="submit" class="btn btn-primary mt-3">Search</button>
+    </form>
+
     @if (Model != null && Model.Any())
     {
         <h3 class="mt-4">Results</h3>

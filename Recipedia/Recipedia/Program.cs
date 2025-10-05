@@ -9,6 +9,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<RecipediaAppContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddHttpClient<IGeminiService, GeminiService>();
 builder.Services.AddHttpClient<GoogleSearchEngineService>();
+builder.Services.AddHttpClient<SpoonacularService>();
 
 var app = builder.Build();
 

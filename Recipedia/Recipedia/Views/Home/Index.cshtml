@@ -1,8 +1,35 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿@model IEnumerable<Recipedia.Models.WebRecipeResultDTO>?
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<h2>Find a recipe</h2>
+
+<div>
+	<form asp-action="Search" method="post" id="searchForm">
+		<div class="mb-3">
+			<div>
+				<input type="text" id="tagInput" placeholder="Type and press Enter" class="form-control" />
+				<div id="tagsContainer" style="margin-top:10px;"></div>
+			</div>
+			<!-- Hidden input to submit tags back to server -->
+			<input type="hidden" id="tagsHidden" name="ingredients"/>
+		</div>
+		<button type="submit" class="btn btn-primary mt-3">Search</button>
+	</form>
+    @if (Model != null && Model.Any())
+    {
+        <h3 class="mt-4">Results</h3>
+        <div class="recipe-grid mt-3">
+            @foreach (var recipe in Model)
+            {
+                <div class="recipe-card">
+                    <img src="@recipe.ImageUrl" alt="@recipe.Title" style="width:100%; height:200px; object-fit:cover;" />
+                    <h4>@recipe.Title</h4>
+                    <a href="@recipe.Url" target="_blank" class="btn btn-sm btn-primary">Go to Recipe</a>
+                </div>
+            }
+        </div>
+    }
 </div>
+
+@section Scripts {
+    <script src="~/js/tagsInput.js"></script>
+}

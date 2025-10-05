@@ -27,7 +27,6 @@ namespace Recipedia.Data.Services
 			{
 				Random random = new Random();
 
-				// Handle "Random" values
 				if (category == "RandomCategory" || string.IsNullOrEmpty(category))
 					category = Categories[random.Next(Categories.Length)];
 
@@ -70,7 +69,7 @@ namespace Recipedia.Data.Services
 				};
 
 				//Create HTTP request
-				var url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
+				string url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
 				var httpRequest = new HttpRequestMessage(HttpMethod.Post, url);
 				httpRequest.Headers.Add("X-goog-api-key", _apiKey);
 				httpRequest.Content = new StringContent(

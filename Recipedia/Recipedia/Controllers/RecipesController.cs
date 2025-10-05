@@ -22,24 +22,6 @@ namespace Recipedia.Controllers
 			return View(recipes);
 		}
 
-		public IActionResult Create()
-		{
-			return View();
-		}
-
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public IActionResult Create(Recipe recipe)
-		{
-			if (ModelState.IsValid)
-			{
-				_context.Recipes.Add(recipe);
-				_context.SaveChanges();
-				return RedirectToAction(nameof(Index)); //re direct user back to recipes list
-			}
-			return View(recipe);
-		}
-
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> DeleteRecipe(int id)

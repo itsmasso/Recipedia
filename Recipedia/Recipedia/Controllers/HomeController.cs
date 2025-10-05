@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Recipedia.Data.Services;
 using Recipedia.Models;
 using System.Diagnostics;
 
@@ -6,11 +7,10 @@ namespace Recipedia.Controllers
 {
 	public class HomeController : Controller
 	{
-		private readonly ILogger<HomeController> _logger;
-
-		public HomeController(ILogger<HomeController> logger)
+		private readonly GoogleSearchEngineService _googleCSEService;
+		public HomeController(GoogleSearchEngineService googleCSEService)
 		{
-			_logger = logger;
+			_googleCSEService = googleCSEService;
 		}
 
 		public IActionResult Index()
@@ -18,15 +18,16 @@ namespace Recipedia.Controllers
 			return View();
 		}
 
-		public IActionResult Privacy()
+		[HttpPost]
+		public async Task<IActionResult> Search(string ingredients)
 		{
-			return View();
+            if (string.IsNullOrWhiteSpace(ingredients))
+                return View(nameof(Index), new List<WebRecipeResultDTO>());
+
+			var recipes = await _googleCSEService.SearchRecipesAsync(ingredients);
+         
+            return View(nameof(Index), recipes);
 		}
 
-		[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-		public IActionResult Error()
-		{
-			return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-		}
 	}
 }

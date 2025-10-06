@@ -1,0 +1,107 @@
+﻿.home-wrapper{
+    padding: 7rem 2rem;
+}
+.input-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2.5rem;
+}
+
+.input-header{
+    display: flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items: center;
+}
+
+.search-form{
+    width: 50rem;
+    height: 9rem;  
+}
+.input-wrapper {
+    height: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.ingredient-textarea {
+    position: relative;
+    width: 100%;
+    min-height: 160px;
+    border: 1px solid #305fc7;
+    border-radius: 13px;
+    background-color: #fff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    font-size: 1rem;
+    font-family: inherit;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    overflow: hidden;
+    padding: 12px;
+    box-sizing: border-box;
+    padding-bottom: 48px; /* leave space for button */
+}
+
+/* Scrollable content area */
+.textarea-content {
+    flex-grow: 1;
+    overflow-y: auto;
+   
+}
+
+/* Placeholder for editable div */
+.editable:empty::before {
+    content: attr(data-placeholder);
+    color: #aaa;
+    pointer-events: none;
+}
+
+/* Editable area */
+.editable {
+    outline: none;
+    min-height: 1.4em;
+    line-height: 1.4;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+/* Tags styling */
+#tagsContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 7px;
+}
+
+.tag {
+    background-color: #305fc7;
+    color: white;
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+/* Keep your existing button style */
+.btn-submit {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    background-color: #305fc7;
+    color: white;
+    border: none;
+    padding: 5px 14px;
+    border-radius: 17px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+    .btn-submit:hover {
+        background-color: #5a83d9;
+    }

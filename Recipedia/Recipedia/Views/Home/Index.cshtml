@@ -1,34 +1,42 @@
 ﻿@model IEnumerable<Recipedia.Models.WebRecipeResultDTO>?
 
-<h2>Find a recipe</h2>
-
-<div>
-    <form asp-action="Search" method="post" id="searchForm">
-        <div>
-            <input type="text" id="tagInput" placeholder="Type and press Enter" class="form-control" />
-            <div id="tagsContainer" style="margin-top:10px;"></div>
-            <input type="hidden" id="tagsHidden" name="ingredients" />
+<div class="home-wrapper">
+    <div class="input-container">
+        <div class="input-header">
+            <h1>What's in Your Kitchen?</h1>
+            <p>Type in your ingredients and we’ll find recipes you can make right now. No registration is required. Free, quick, and online.</p>
         </div>
 
-        <button type="submit" class="btn btn-primary mt-3">Search</button>
-    </form>
+        <form asp-action="Search" method="post" id="searchForm" class="search-form">
+            <div class="ingredient-textarea">
+                <div class="textarea-content">             
+                    <div id="tagInput"
+                         class="editable"
+                         contenteditable="true"
+                         data-placeholder="Type your ingredients and press Enter to add them here"></div>
+                    <div id="tagsContainer"></div>
+                </div>
+
+                <button type="submit" class="btn-submit">Search</button>
+            </div>
+
+            <input type="hidden" id="tagsHidden" name="ingredients" />
+        </form>
+        <script src="~/js/tagsInput.js"></script>
+    </div>
 
     @if (Model != null && Model.Any())
     {
         <h3 class="mt-4">Results</h3>
-        <div class="recipe-grid mt-3">
+        <div class="recipe-grid">
             @foreach (var recipe in Model)
             {
                 <div class="recipe-card">
-                    <img src="@recipe.ImageUrl" alt="@recipe.Title" style="width:100%; height:200px; object-fit:cover;" />
+                    <img src="@recipe.ImageUrl" alt="@recipe.Title" />
                     <h4>@recipe.Title</h4>
-                    <a href="@recipe.Url" target="_blank" class="btn btn-sm btn-primary">Go to Recipe</a>
+                    <a href="@recipe.Url" target="_blank" class="btn-go">Go to Recipe</a>
                 </div>
             }
         </div>
     }
 </div>
-
-@section Scripts {
-    <script src="~/js/tagsInput.js"></script>
-}

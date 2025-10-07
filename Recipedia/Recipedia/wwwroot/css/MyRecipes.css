@@ -1,0 +1,14 @@
+﻿.myrecipes-header {
+    height: 200px;
+    display: flex;
+    align-items: center;
+    background-color: #0f7a60;
+    width: 100%;
+    padding: 0rem 10rem;
+   
+}
+.myrecipes-header h1 {
+    font-size: 3.8rem;
+    color: white;
+    font-weight: 600;
+}

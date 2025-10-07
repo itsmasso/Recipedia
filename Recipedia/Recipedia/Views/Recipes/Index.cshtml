@@ -1,23 +1,39 @@
 ﻿@model IEnumerable<Recipedia.Models.Recipe>
 
-<h2>Recipes</h2>
 
-<div class="recipe-grid">
-    @foreach (var recipe in Model)
-    {
-        //If no image is set, use the default
-        var imageUrl = string.IsNullOrEmpty(recipe.ImageUrl)
-        ? Url.Content("~/Images/meal-icon.png") 
-        : Url.Content(recipe.ImageUrl);
-
-        <div class="recipe-card" style="background-image: url('@imageUrl')">
-            <div class="recipe-overlay">
-                <h3>
-                    <a asp-action="RecipeDetails" asp-route-id="@recipe.Id">
-                        @recipe.Title
-                    </a>
-                </h3>
-            </div>
-        </div>
-    }
+<div class="myrecipes-header">
+    <h1>My Recipes</h1>
 </div>
+
+@if (Model != null && Model.Any())
+{
+    <div class="results-container">
+
+        <div class="recipe-grid">
+            @foreach (var recipe in Model)
+            {
+                <div class="recipe-result-container">
+                    <div class="recipe-card">
+              
+                        <img src="@recipe.ImageUrl" alt="@recipe.Title" />
+
+                        <a href="@recipe.Url" target="_blank" class="btn-go">VIEW RECIPE <i class="bi bi-box-arrow-up-right"></i></a>
+                    </div>
+                    <div class="recipe-source">
+                        <i class="bi bi-globe btn-icon"></i> @recipe.Source
+                    </div>
+                    <h4>@recipe.Title</h4>
+                </div>
+            }
+        </div>
+    </div>
+}
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        document.querySelectorAll(".heart-btn").forEach(btn => {
+            btn.addEventListener("click", () => {
+                btn.classList.toggle("active");
+            });
+        });
+    });
+</script>

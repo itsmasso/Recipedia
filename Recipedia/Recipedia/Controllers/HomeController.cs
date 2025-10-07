@@ -1,7 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
+using Recipedia.Data;
 using Recipedia.Data.Services;
 using Recipedia.Models;
 using System.Diagnostics;
+using System.Net.NetworkInformation;
 
 namespace Recipedia.Controllers
 {
@@ -9,10 +11,12 @@ namespace Recipedia.Controllers
 	{
 		private readonly GoogleSearchEngineService _googleCSEService;
         private readonly SpoonacularService _spoonacularService;
-        public HomeController(GoogleSearchEngineService googleCSEService, SpoonacularService spoonacularService)
+        private readonly RecipediaAppContext _context;
+        public HomeController(GoogleSearchEngineService googleCSEService, SpoonacularService spoonacularService, RecipediaAppContext context)
 		{
 			_googleCSEService = googleCSEService;
             _spoonacularService = spoonacularService;
+            _context = context;
         }
 
 		public IActionResult Index()
@@ -47,10 +51,16 @@ namespace Recipedia.Controllers
                 return View(nameof(Index), new List<WebRecipeResultDTO>());
             }
 
+            ViewBag.VerifiedIngredients = verifiedIngredients;
+
             var recipes = await _googleCSEService.SearchRecipesAsync(string.Join(",", verifiedIngredients));
+
+            var savedUrls = _context.Recipes.Select(r => r.Url).ToList();
+            ViewBag.SavedUrls = savedUrls;
 
             return View(nameof(Index), recipes);
         }
+
 
     }
 }

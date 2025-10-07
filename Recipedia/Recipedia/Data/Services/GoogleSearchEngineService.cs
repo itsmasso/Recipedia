@@ -26,6 +26,11 @@ namespace Recipedia.Data.Services
             response.EnsureSuccessStatusCode();
 
             var json = await response.Content.ReadAsStringAsync();
+
+            //System.Diagnostics.Debug.WriteLine("=== GOOGLE RESPONSE ===");
+            //System.Diagnostics.Debug.WriteLine(json);
+            //System.Diagnostics.Debug.WriteLine("======================");
+
             var googleResponse = JsonSerializer.Deserialize<GoogleCseResponse>(json, new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true
@@ -35,10 +40,31 @@ namespace Recipedia.Data.Services
             {            
                 Title = x.Title,
                 Url = x.Link,
-                ImageUrl = GetOgImage(x)
+                ImageUrl = GetOgImage(x),
+                Source = GetDomainName(x.Link)
+
             }).ToList() ?? new List<WebRecipeResultDTO>();
+      
 
             return results;
+        }
+        private string GetDomainName(string url)
+        {
+            try
+            {
+                var uri = new Uri(url);
+                var host = uri.Host;
+
+                //Remove 'www.' if present
+                if (host.StartsWith("www."))
+                    host = host.Substring(4);
+
+                return host;
+            }
+            catch
+            {
+                return url;
+            }
         }
         private string GetOgImage(GoogleCseItem item)
         {
@@ -57,6 +83,8 @@ namespace Recipedia.Data.Services
             return imageUrl ?? "";
         }
     }
+}
+
     public class GoogleCseResponse
     {
         public List<GoogleCseItem> Items { get; set; }
@@ -87,6 +115,8 @@ namespace Recipedia.Data.Services
 
         [JsonPropertyName("thumbnailurl")]
         public string? ThumbnailUrl { get; set; }
+
+
     }
 
     public class GoogleImageObject
@@ -94,4 +124,4 @@ namespace Recipedia.Data.Services
         public string? Src { get; set; }
     }
 
-}
+

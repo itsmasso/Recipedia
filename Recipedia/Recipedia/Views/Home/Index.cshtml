@@ -17,7 +17,9 @@
                     <div id="tagsContainer"></div>
                 </div>
 
-                <button type="submit" class="btn-submit">Search</button>
+                <button type="submit" class="btn-submit">
+                    <i class="bi bi-search"></i> Search
+                </button>
             </div>
 
             <input type="hidden" id="tagsHidden" name="ingredients" />
@@ -27,16 +29,68 @@
 
     @if (Model != null && Model.Any())
     {
-        <h3 class="mt-4">Results</h3>
-        <div class="recipe-grid">
-            @foreach (var recipe in Model)
-            {
-                <div class="recipe-card">
-                    <img src="@recipe.ImageUrl" alt="@recipe.Title" />
-                    <h4>@recipe.Title</h4>
-                    <a href="@recipe.Url" target="_blank" class="btn-go">Go to Recipe</a>
-                </div>
-            }
+        var ingredients = ViewBag.VerifiedIngredients != null
+        ? string.Join(", ", (List<string>)ViewBag.VerifiedIngredients)
+        : "";
+
+        <div class="results-container">
+            <div class="results-header">
+                <h3>Here's some recipes using @ingredients!</h3>
+            </div>
+            <div class="recipe-grid">
+                @foreach (var recipe in Model)
+                {
+                    var isSaved = ViewBag.SavedUrls != null && ((List<string>)ViewBag.SavedUrls).Contains(recipe.Url);
+                    <div class="recipe-result-container">
+                        <div class="recipe-card">
+                            <div class="save-btn">
+                                @Html.AntiForgeryToken()
+                                <button type="button" class="heart-btn @(isSaved ? "active" : "")"
+                                        onclick="saveRecipe('@recipe.Title', '@recipe.Url', '@recipe.ImageUrl', '@recipe.Source', this)"
+                                @(isSaved ? "disabled" : "")>
+                                    <i class="bi bi-heart"></i>
+                                    <i class="bi bi-heart-fill"></i>
+                                </button>
+                            </div>
+                            <img src="@recipe.ImageUrl" alt="@recipe.Title" />
+
+                            <a href="@recipe.Url" target="_blank" class="btn-go">VIEW RECIPE <i class="bi bi-box-arrow-up-right"></i></a>
+                        </div>
+                        <div class="recipe-source">
+                            <i class="bi bi-globe btn-icon"></i> @recipe.Source
+                        </div>
+                        <h4>@recipe.Title</h4>
+                    </div>
+                }
+            </div>
         </div>
     }
 </div>
+
+<script>
+    function saveRecipe(title, url, imageUrl, source, button) {
+        const token = document.querySelector('input[name="__RequestVerificationToken"]').value;
+
+        fetch('/Recipes/SaveRecipe', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'RequestVerificationToken': token
+            },
+            body: JSON.stringify({
+                title: title,
+                url: url,
+                imageUrl: imageUrl,
+                source: source
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                button.classList.add('active');
+                button.disabled = true;
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    }
+</script>

@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Recipedia.Data;
 
@@ -10,9 +11,11 @@ using Recipedia.Data;
 namespace Recipedia.Migrations
 {
     [DbContext(typeof(RecipediaAppContext))]
-    partial class RecipediaAppContextModelSnapshot : ModelSnapshot
+    [Migration("20251007095733_UpdateRecipeModel")]
+    partial class UpdateRecipeModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

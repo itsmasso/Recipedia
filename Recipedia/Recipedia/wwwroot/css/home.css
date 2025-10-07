@@ -1,5 +1,8 @@
-﻿.home-wrapper{
-    padding: 7rem 2rem;
+﻿.home-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 5rem;
+    
 }
 .input-container {
     display: flex;
@@ -7,13 +10,28 @@
     justify-content: center;
     align-items: center;
     gap: 2.5rem;
+    margin-top: 7rem;
+    background-color: #faf5f1;
+    padding: 4rem 0rem;
 }
 
-.input-header{
+.input-header {
     display: flex;
-    flex-direction:column;
-    justify-content:center;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
+    color: #305fc7;
+}
+
+.input-header h1 {
+    font-size: 3.5rem;
+    font-weight: 600;
+}
+.input-header p {
+    font-size: 1.4rem;
+    text-align: center;
+    width: 70%;
+    font-weight: 400;
 }
 
 .search-form{
@@ -47,21 +65,38 @@
     padding-bottom: 48px; /* leave space for button */
 }
 
-/* Scrollable content area */
 .textarea-content {
     flex-grow: 1;
     overflow-y: auto;
    
 }
+.results-container{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
 
-/* Placeholder for editable div */
+.results-header {
+    height: 200px;
+    display: flex;
+    align-items: center;
+    background-color: #0f7a60;
+    width: 100%;
+    padding: 0rem 10rem;
+}
+
+.results-header h3{
+    font-size: 2.4rem;
+    font-weight: 600;
+    color: white;
+}
+
 .editable:empty::before {
     content: attr(data-placeholder);
     color: #aaa;
     pointer-events: none;
 }
 
-/* Editable area */
 .editable {
     outline: none;
     min-height: 1.4em;
@@ -69,25 +104,38 @@
     white-space: pre-wrap;
     word-wrap: break-word;
 }
-
-/* Tags styling */
 #tagsContainer {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
+    gap: 4px;
     margin-top: 7px;
 }
 
 .tag {
+    display: inline-flex;
+    align-items: center;
     background-color: #305fc7;
-    color: white;
-    border-radius: 6px;
+    color: #fff;
+    border-radius: 8px;
     padding: 4px 8px;
+    margin: 4px;
     font-size: 0.9rem;
-    cursor: pointer;
+    gap: 4px;
+    user-select: none;
 }
 
-/* Keep your existing button style */
+
+.tag .tag-remove {
+    cursor: pointer;
+    font-size: 0.9rem;
+    opacity: 0.8;
+    transition: opacity 0.2s ease;
+}
+
+.tag .tag-remove:hover {
+    opacity: 1;
+    color: white;
+}
 .btn-submit {
     position: absolute;
     right: 10px;
@@ -96,12 +144,18 @@
     color: white;
     border: none;
     padding: 5px 14px;
-    border-radius: 17px;
+    border-radius: 10px;
     cursor: pointer;
     font-size: 0.9rem;
     transition: background-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-    .btn-submit:hover {
-        background-color: #5a83d9;
-    }
+.btn-submit:hover {
+    background-color: #5a83d9;
+}
+
+.btn-submit i {
+    margin-right: 3px;
+
+}
+

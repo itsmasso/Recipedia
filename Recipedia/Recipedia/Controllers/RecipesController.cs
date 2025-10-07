@@ -22,7 +22,31 @@ namespace Recipedia.Controllers
 			return View(recipes);
 		}
 
-		[HttpPost]
+        [HttpPost]
+        public IActionResult SaveRecipe([FromBody] WebRecipeResultDTO webRecipeResult)
+        {
+            if (webRecipeResult != null)
+            {
+                var existingRecipe = _context.Recipes.FirstOrDefault(r => r.Url == webRecipeResult.Url);
+
+                if (existingRecipe == null)
+                {
+                    var recipe = new Recipe
+                    {
+                        Title = webRecipeResult.Title,
+                        Url = webRecipeResult.Url,
+                        ImageUrl = webRecipeResult.ImageUrl,
+                        Source = webRecipeResult.Source
+                    };
+                    _context.Recipes.Add(recipe);
+                    _context.SaveChanges();
+                }
+            }
+
+            return Json(new { success = true });
+        }
+
+        [HttpPost]
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> DeleteRecipe(int id)
 		{
@@ -76,31 +100,6 @@ namespace Recipedia.Controllers
             return View("GeneratedRecipeResult", recipe);
 		}
 
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public IActionResult SaveRecipe(GeneratedRecipeResultDTO generatedRecipe)
-		{
-			if (ModelState.IsValid)
-			{
-                //Map DTO to Entity
-                var recipe = new Recipe
-                {
-                    Title = generatedRecipe.Title,
-                    Ingredients = string.Join(", ", generatedRecipe.Ingredients ?? new List<string>()),
-                    Instructions = string.Join("\n", generatedRecipe.Instructions ?? new List<string>()),
-                    Category = generatedRecipe.Category,
-                    CookTimeMinutes = generatedRecipe.CookTimeMinutes,
-                    Difficulty = generatedRecipe.Difficulty,
-					//add default image here
-                };
-
-                _context.Recipes.Add(recipe);
-                _context.SaveChanges();
-                
-            }
-            return RedirectToAction(nameof(Index)); //re direct user back to recipes list
-
-        }
 	
 
 

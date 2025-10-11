@@ -5,18 +5,28 @@
     <h1>My Recipes</h1>
 </div>
 
-@if (Model != null && Model.Any())
+@if (Model == null || !Model.Any())
+{
+    <div class="recipe-grid">
+        <p class="no-recipes">You have not added any recipes yet.</p>
+    </div>
+}
+else
 {
     <div class="results-container">
-
         <div class="recipe-grid">
             @foreach (var recipe in Model)
             {
                 <div class="recipe-result-container">
                     <div class="recipe-card">
-              
+                        <form asp-controller="Recipes" asp-action="DeleteRecipe" method="post" class="delete-btn">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="id" value="@recipe.Id" />
+                            <button type="submit" class="x-btn">
+                                <i class="bi bi-x"></i>
+                            </button>
+                        </form>
                         <img src="@recipe.ImageUrl" alt="@recipe.Title" />
-
                         <a href="@recipe.Url" target="_blank" class="btn-go">VIEW RECIPE <i class="bi bi-box-arrow-up-right"></i></a>
                     </div>
                     <div class="recipe-source">

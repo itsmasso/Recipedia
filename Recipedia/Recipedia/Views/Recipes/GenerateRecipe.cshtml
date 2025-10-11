@@ -1,45 +1,48 @@
 ﻿@model Recipedia.Models.GenerateRecipeInputModel;
 
 <div class="generate-recipe-body">
-	<h1>Generate a Recipe</h1>
-	<p>List ingredients you have in your home!</p>
+	<div class="input-container">
+		<div class="input-header">
+			<h1>Free Recipe AI Generator</h1>
+			<p>Type in your ingredients and we’ll generate recipe ideas you can make right now. No registration is required.</p>
+		</div>
+		<form asp-action="GenerateRecipe" method="post" class="search-form">
+			@Html.AntiForgeryToken()
+			<div class="ingredient-textarea">
+				<div class="textarea-content">
+					<div id="tagInput"
+						 class="editable"
+						 contenteditable="true"
+						 data-placeholder="Type an ingredient and press [Enter] to add them here"></div>
+					<div id="tagsContainer"></div>
+				</div>
+				<div class="form-select-container">
+					<select asp-for="Category" id="categorySelect" name="Category" class="form-select">
+						<option value="RandomCategory">Category</option>
+						<option value="Dessert">Dessert</option>
+						<option value="Breakfast">Breakfast</option>
+						<option value="Lunch">Lunch</option>
+						<option value="Dinner">Dinner</option>
+					</select>
+					<select asp-for="Difficulty" id="difficultySelect" name="Difficulty" class="form-select">
+						<option value="RandomDifficulty">Difficulty</option>
+						<option value="Easy">Easy</option>
+						<option value="Medium">Medium</option>
+						<option value="Hard">Hard</option>
+					</select>
+				</div>
+				<button type="submit" class="btn-submit">
+					<i class="bi bi-stars"></i></i> Generate
+				</button>
+			</div>
+			<input type="hidden" id="tagsHidden" name="IngredientsTags" asp-for="IngredientsTags" />
+		</form>
+		<script src="~/js/tagsInput.js"></script>
+		
+		
+	</div>
 	
-	<form asp-action="GenerateRecipe" method="post">
-		@Html.AntiForgeryToken()
-		<div>
-			<label for="categorySelect" class="form-label">Category</label>
-			<select asp-for="Category" id="categorySelect" name="Category" class="form-select">
-				<option value="RandomCategory">Random Category</option>
-				<option value="Dessert">Dessert</option>
-				<option value="Breakfast">Breakfast</option>
-				<option value="Lunch">Lunch</option>
-				<option value="Dinner">Dinner</option>
-			</select>
-		</div>
-
-		<div>
-			<label for="difficultySelect" class="form-label">Difficulty</label>
-			<select asp-for="Difficulty" id="difficultySelect" name="Difficulty" class="form-select">
-				<option value="RandomDifficulty">Random Difficulty</option>
-				<option value="Easy">Easy</option>
-				<option value="Medium">Medium</option>
-				<option value="Hard">Hard</option>
-			</select>
-		</div>
-
-
-		<div>
-			<input type="text" id="tagInput" placeholder="Type and press Enter" class="ai-input-box" />
-			<div id="tagsContainer" style="margin-top:10px;"></div>
-		</div>
-		<!-- Hidden input to submit tags back to server -->
-		<input type="hidden" id="tagsHidden" name="IngredientsTags" asp-for="IngredientsTags" />
-		<button type="submit" class="btn btn-primary mt-3">Generate Recipe</button>
-	</form>
+	
 	
 
 </div>
-
-@section Scripts{
-	<script src="~/js/tagsInput.js"></script>
-}

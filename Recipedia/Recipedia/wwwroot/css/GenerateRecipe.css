@@ -1,5 +1,109 @@
-﻿.generate-recipe-body{
+﻿.generated-recipe-body {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    gap: 5rem;
+}
+
+.form-select {
+    flex: 1;
+    min-width: 50px;
+    max-width: 100px;
+    padding: 0.5rem 2rem 0.5rem 0.75rem;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    background-color: white;
+    font-size: 0.75rem;
+    cursor: pointer;
+}
+.form-select-container {
+    display: flex;
+    gap: 10px;
     align-items: center;
+    width: 100%; 
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+}
+.generated-recipe-header {
+    background-color: #8faa67;
+}
+.generated-recipe-header-container{
+    padding: 5rem 10rem;
+}
+.generated-recipe-header-container h1 {
+    color: white;
+    font-size: 3.5rem;
+    font-family: Lora;
+}
+.generated-recipe-header-container h2 {
+    color: white;
+    font-weight: 300;
+    font-size: 1.4rem;
+}
+.recipe-tags-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+.recipe-tag {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    border: 1px solid white;
+    border-radius: 99px;
+    padding: 8px 12px;
+    height: 40%;
+    
+}
+.recipe-tag i {
+    font-size: 20px;
+    color: white;
+}
+.recipe-tag-text {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex-direction: column;
+}
+.recipe-tag div {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+}
+.tag-title{
+    font-size: 12px;
+    color: white;
+}
+.tag-value {
+    font-size: 15px;
+    color: white;
+}
+.generated-recipe-content {
+    display: flex;
+    padding: 0rem 10rem;
+    gap: 3rem;
+}
+.generated-recipe-ingredients  {
+    background-color: white;
+    width: fit-content;
+    padding: 3rem 2rem;
+    border-radius: 18px;
+}
+.generated-recipe-directions {
+
+    width: fit-content;
+    padding: 3rem 2rem;
+    border-radius: 18px;
+}
+
+.generated-recipe-ingredients h4 {
+    font-size: 2.5rem;
+    font-family: Lora;
+
+   
+}
+.generated-recipe-directions h4 {
+    font-size: 2.5rem;
+    font-family: Lora;
 }

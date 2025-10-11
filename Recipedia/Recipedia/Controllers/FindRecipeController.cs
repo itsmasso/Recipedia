@@ -7,12 +7,12 @@ using System.Net.NetworkInformation;
 
 namespace Recipedia.Controllers
 {
-	public class HomeController : Controller
+	public class FindRecipeController : Controller
 	{
 		private readonly GoogleSearchEngineService _googleCSEService;
         private readonly SpoonacularService _spoonacularService;
         private readonly RecipediaAppContext _context;
-        public HomeController(GoogleSearchEngineService googleCSEService, SpoonacularService spoonacularService, RecipediaAppContext context)
+        public FindRecipeController(GoogleSearchEngineService googleCSEService, SpoonacularService spoonacularService, RecipediaAppContext context)
 		{
 			_googleCSEService = googleCSEService;
             _spoonacularService = spoonacularService;

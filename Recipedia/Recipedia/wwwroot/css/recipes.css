@@ -24,6 +24,7 @@
     flex-direction: column;
     gap: 10px;
 }
+
 .recipe-card img {
     width: 100%;
     height: 100%;
@@ -40,13 +41,14 @@
     font-size: 1.2rem;
     font-weight: bold;
     color: #333;
+    
 }
 
 .recipe-source {
-    border: 1px solid #0f7a60;
+    border: 1px solid #729c36;
     border-radius: 4px;
     padding: 5px 8px;
-    color: #0f7a60;
+    color: #729c36;
     width: fit-content;
 }
 
@@ -68,8 +70,7 @@
     justify-content: space-between;
 }
 .btn-go:hover {
-    color: #0f7a60;
-     
+    color: #729c36;
 }
 
 .recipe-card:hover .btn-go {
@@ -139,3 +140,40 @@
     opacity: 1;
 }
 
+.recipe-card:hover .delete-btn{
+    opacity: 1;
+}
+
+.delete-btn {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 5;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.x-btn {
+    background: white;
+    border: none;
+    border-radius: 50%;
+    width: 38px;
+    height: 38px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1.2rem;
+    line-height: 38px;
+    text-align: center;
+    transition: background 0.2s;
+}
+
+
+.x-btn i {
+    font-size: 1.5rem;
+    color: black;
+    transition: color 0.2s;
+}
+
+.x-btn:hover i {
+    color: #ff4d4d;
+}

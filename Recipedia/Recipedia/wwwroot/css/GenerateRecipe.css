@@ -26,9 +26,11 @@
 }
 .generated-recipe-header {
     background-color: #8faa67;
+    position: relative;
 }
-.generated-recipe-header-container{
+.generated-recipe-header-container {
     padding: 5rem 10rem;
+    
 }
 .generated-recipe-header-container h1 {
     color: white;
@@ -44,6 +46,7 @@
     display: flex;
     align-items: center;
     gap: 1rem;
+    margin-bottom: 20px; 
 }
 .recipe-tag {
     display: flex;
@@ -89,12 +92,14 @@
     width: fit-content;
     padding: 3rem 2rem;
     border-radius: 18px;
+   
 }
 .generated-recipe-directions {
-
+    background-color: white;
     width: fit-content;
     padding: 3rem 2rem;
     border-radius: 18px;
+ 
 }
 
 .generated-recipe-ingredients h4 {
@@ -107,3 +112,35 @@
     font-size: 2.5rem;
     font-family: Lora;
 }
+
+.back-btn{
+    position: absolute;
+    top: 1.2rem;
+    left: 10rem;
+}
+.back-btn i{
+    font-size: 2rem;
+    color: white;
+}
+
+.pdf-btn {
+    background-color: transparent;
+    color: white;
+    font-weight: 500;
+    border: 2px solid white;
+    padding: 5px 14px;
+    border-radius: 990px;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 0.9rem;
+    
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+    .pdf-btn:hover {
+        background-color: white;
+        color: #8faa67;
+    }
+
+    .pdf-btn i {
+        margin-right: 3px;
+    }

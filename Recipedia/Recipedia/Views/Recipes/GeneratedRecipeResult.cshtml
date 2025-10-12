@@ -2,7 +2,11 @@
 
 <div class="generated-recipe-body">
     <div class="generated-recipe-header">
+        <div>
+            <a asp-action="GenerateRecipe" class="back-btn"><i class="bi bi-arrow-left"></i></a>
+        </div>
         <div class="generated-recipe-header-container">
+
             <h2>@Model.Category</h2>
             <h1>@Model.Title</h1>
             <div class="recipe-tags-container">
@@ -21,6 +25,9 @@
                     </div>
                 </div>
             </div>
+            <a asp-controller="Recipes" asp-action="DownloadRecipePdf" class="pdf-btn">
+                <i class="bi bi-file-earmark-pdf"></i> PDF Download
+            </a>
         </div>
     </div>
     <div class="generated-recipe-content">
@@ -47,8 +54,6 @@
 
     </div>
 
-    <div class="mt-3">
-        <a asp-action="GenerateRecipe" class="btn btn-secondary">🔙 Back</a>
-    </div>
+ 
 
 </div>

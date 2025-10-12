@@ -86,11 +86,36 @@
         })
         .then(response => response.json())
         .then(data => {
-            if (data.success) {
+            if (data.redirectToLogin) {
+                // User not logged in - redirect to login
+                window.location.href = '/Account/Login?returnUrl=' + encodeURIComponent(window.location.pathname + window.location.search);
+            } else if (data.success) {
+                // Recipe saved successfully
                 button.classList.add('active');
                 button.disabled = true;
+
+                showNotification('Recipe saved!', 'success');
+            } else {
+                // Show error message
+                showNotification(data.message || 'Failed to save recipe', 'error');
             }
         })
-        .catch(error => console.error('Error:', error));
+        .catch(error => {
+            console.error('Error:', error);
+            showNotification('An error occurred. Please try again.', 'error');
+        });
+    }
+
+    // Optional: Simple notification function
+    function showNotification(message, type) {
+        const notification = document.createElement('div');
+        notification.className = `alert alert-${type === 'success' ? 'success' : 'danger'} position-fixed top-0 start-50 translate-middle-x mt-3`;
+        notification.style.zIndex = '9999';
+        notification.textContent = message;
+        document.body.appendChild(notification);
+
+        setTimeout(() => {
+            notification.remove();
+        }, 3000);
     }
 </script>

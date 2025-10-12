@@ -9,5 +9,10 @@ namespace Recipedia.Models
         public string? Url { get; set; }
         public string? ImageUrl { get; set; }
         public string? Source { get; set; }
+        //Foreign key to user
+        [Required]
+        public string UserId { get; set; }
+        //Navigation property
+        public User User { get; set; }
     }
 }

@@ -1,0 +1,41 @@
+﻿
+<div class="home-page-content">
+	<div class="welcome-container">
+		<div class="welcome-text">
+			<h4>WELCOME</h4>
+			<h1>Cook, Collect, Create</h1>
+			<p>Input your ingredients and explore recipes that you can save or generate new dishes effortlessly.</p>
+			<div class="welcome-btn-container">
+				<a asp-controller="FindRecipe" asp-action="Index" class="find-recipe-btn">Find Recipes</a>
+				<a asp-controller="Recipes" asp-action="GenerateRecipe" class="create-recipe-btn">Generate Recipes</a>
+			</div>
+		</div>
+		<img class="home-background" src="~/Images/food-background.png" alt="food background">
+	</div>
+
+	<div class="about-wrapper">
+		<h1></h1>
+		<div class="feature-container">
+			<div class="feature-header">
+				<h1>Search Recipes by Ingredients</h1>
+				<img src="~/Images/recipedia-feature1.png" alt="find recipe img">
+			</div>
+			<p>Just type in the ingredients you have on hand, and discover delicious recipes online you can make right now. No more wondering what to cook!</p>
+		</div>
+		<div class="feature-container">
+			<div class="feature-header">
+				<h1>Save Recipes</h1>
+				<img src="~/Images/recipedia-feature2.png" alt="save recipe img">
+			</div>
+			<p>Keep all your recipe links in one place. Ensure that you never lose track of your favorite recipes.</p>
+		</div>
+		<div class="feature-container">
+
+			<div class="feature-header">
+				<h1>Generate Recipes Instantly</h1>
+				<img src="~/Images/recipedia-feature3.png" alt="generate recipe img">
+			</div>
+			<p>Feeling creative? Enter your ingredients and let our generator suggest unique recipes you can try today.</p>
+		</div>
+	</div>
+</div>

@@ -106,16 +106,19 @@
         });
     }
 
-    // Optional: Simple notification function
-    function showNotification(message, type) {
+        function showNotification(message, type, tone = '') {
         const notification = document.createElement('div');
-        notification.className = `alert alert-${type === 'success' ? 'success' : 'danger'} position-fixed top-0 start-50 translate-middle-x mt-3`;
+        const alertClass =
+            type === 'success'
+                ? `alert alert-success ${tone}`
+                : 'alert alert-danger';
+
+        notification.className = `${alertClass} position-fixed top-0 start-50 translate-middle-x mt-3 px-4 py-2 rounded-3 shadow`;
         notification.style.zIndex = '9999';
         notification.textContent = message;
+
         document.body.appendChild(notification);
 
-        setTimeout(() => {
-            notification.remove();
-        }, 3000);
+        setTimeout(() => notification.remove(), 3000);
     }
 </script>

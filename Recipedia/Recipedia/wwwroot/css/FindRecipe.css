@@ -160,4 +160,9 @@
     margin-right: 3px;
 
 }
+.alert-success {
+    background-color: #8faa67;
+    border-color: #8faa67 !important;
+    color: #fff !important;
+}
 

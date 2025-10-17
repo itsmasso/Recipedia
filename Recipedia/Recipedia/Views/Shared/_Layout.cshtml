@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="~/css/GenerateRecipe.css" />
     <link rel="stylesheet" href="~/css/Login.css" />
     <link rel="stylesheet" href="~/css/Home.css" />
+    <link rel="stylesheet" href="~/css/Policy.css" />
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -32,7 +33,7 @@
         <nav class="navbar">
             <div class="navbar-container">
                 <a class="navbar-logo" asp-controller="Home" asp-action="Index">
-					<img src="~/images/recipedia-logo.png" alt="Recipedia Logo" />
+					<img src="~/Images/Recipedia-logo.png" alt="Recipedia Logo" />
                 </a>
                 <ul class="navbar-links">
                     <li><a asp-controller="FindRecipe" asp-action="Index">Find Recipes</a></li>
@@ -70,15 +71,17 @@
             </div>
         </nav>
     </header>
-    <div>
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+    <main role="main">
+        @RenderBody()
+    </main>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2025 - Recipedia - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    <footer class="footer-wrapper">
+        <div class="footer-container">
+            <div class="footer-links">
+                <a asp-controller="Home" asp-action="Terms">Terms of Use</a>
+                <a asp-controller="Home" asp-action="Privacy">Privacy Policy</a>
+            </div>
+            <span class="footer-copyright">&copy; 2025 Recipedia</span>  
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

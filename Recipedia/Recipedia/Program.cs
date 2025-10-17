@@ -55,6 +55,14 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.LogoutPath = "/Account/Logout";
     options.AccessDeniedPath = "/Account/AccessDenied";
 });
+var isProd = builder.Environment.IsProduction();
+
+if (isProd)
+{
+    // Listen on all interfaces, port 80 for cloud
+    builder.WebHost.UseUrls("http://*:80");
+}
+
 
 var app = builder.Build();
 RotativaConfiguration.Setup(app.Environment.WebRootPath, "Rotativa/Windows");
@@ -63,7 +71,7 @@ RotativaConfiguration.Setup(app.Environment.WebRootPath, "Rotativa/Windows");
 if (!app.Environment.IsDevelopment())
 {
 	app.UseExceptionHandler("/Home/Error");
-	// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+	
 	app.UseHsts();
 }
 

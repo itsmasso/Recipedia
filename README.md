@@ -4,7 +4,7 @@ Recipedia is a modern recipe web application that lets you search, save, and gen
 
 ## Live Site
 
-Check it out here: recipedia.cc 
+Check it out here: [Recipedia](https://recipedia.cc) 
 
 ## Features
 

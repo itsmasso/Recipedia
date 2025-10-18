@@ -16,4 +16,17 @@
 .no-recipes{
     font-size: 1.2rem;
     color: dimgray;
+    padding: 2rem 2rem;
+}
+@media (max-width: 768px) {
+    .myrecipes-header {
+        padding: 0rem 2rem;
+    }
+    .myrecipes-header h1 {
+        font-size: 2.75rem;
+    }
+    .no-recipes p{
+        font-size: 1rem;
+      
+    }
 }

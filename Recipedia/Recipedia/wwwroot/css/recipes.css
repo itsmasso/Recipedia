@@ -177,3 +177,15 @@
 .x-btn:hover i {
     color: #ff4d4d;
 }
+
+@media (max-width: 768px) {
+    .recipe-grid {
+        grid-template-columns: repeat(2, 1fr);
+        padding: 0rem 2rem;
+        gap: 20px;
+    }
+    .recipe-card {
+        height: 12rem;
+    }
+
+}

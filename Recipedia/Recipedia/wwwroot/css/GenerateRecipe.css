@@ -136,11 +136,61 @@
     
     transition: background-color 0.2s ease, box-shadow 0.2s ease;
 }
-    .pdf-btn:hover {
-        background-color: white;
-        color: #8faa67;
+.pdf-btn:hover {
+    background-color: white;
+    color: #8faa67;
+}
+
+.pdf-btn i {
+    margin-right: 3px;
+}
+
+.ai-disclaimer {
+    font-size: 0.9rem;
+    color: gray;
+    width: 35%;
+    text-align: center;
+    margin-top:1rem;
+}
+
+@media (max-width: 768px){
+    .ai-disclaimer {
+        width: 90%;
+        margin-top: 0;
+    }
+    .generated-recipe-header-container{
+        padding: 3rem 5rem;
+    }
+    .generated-recipe-header-container h1 {
+
+        font-size: 2.5rem;
+
     }
 
-    .pdf-btn i {
-        margin-right: 3px;
+    .generated-recipe-header-container h2 {
+        font-size: 1.2rem;
     }
+
+    .recipe-tag i {
+        font-size: 18px;
+      
+    }
+    .back-btn {
+        left: 5rem;
+        top: 0.3rem;
+    }
+    .generated-recipe-content {
+        display: flex;
+        flex-direction: column;
+        padding: 1rem 2rem;
+        gap: 1rem;
+        
+    }
+
+    .generated-recipe-ingredients {
+        width: 100%;
+    }
+    .generated-recipe-body {
+        gap: 1rem;
+    }
+}

@@ -1,5 +1,8 @@
 ﻿@model IEnumerable<Recipedia.Models.Recipe>
 
+@{
+    ViewData["Title"] = "My Recipes";
+}
 
 <div class="myrecipes-header">
     <h1>My Recipes</h1>
@@ -7,9 +10,7 @@
 
 @if (Model == null || !Model.Any())
 {
-    <div class="recipe-grid">
-        <p class="no-recipes">You have not added any recipes yet.</p>
-    </div>
+    <p class="no-recipes">You have not added any recipes yet.</p>
 }
 else
 {

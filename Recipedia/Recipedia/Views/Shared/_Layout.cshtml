@@ -3,7 +3,8 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Recipedia</title>
+    <title>@ViewData["Title"]Recipedia</title>
+    <link rel="icon" type="image/png" href="~/Images/Recipedia-icon.png" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Recipedia.styles.css" asp-append-version="true" />
@@ -30,44 +31,60 @@
 </head>
 <body>
     <header>
-        <nav class="navbar">
-            <div class="navbar-container">
-                <a class="navbar-logo" asp-controller="Home" asp-action="Index">
-					<img src="~/Images/Recipedia-logo.png" alt="Recipedia Logo" />
+        <nav class="navbar navbar-expand-md custom-navbar">
+            <div class="container-fluid">
+                <!-- Hamburger toggle button -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <a class="navbar-logo navbar-brand d-md-none" asp-controller="Home" asp-action="Index">
+                    <img src="~/Images/Recipedia-logo.png" alt="Recipedia Logo" />
                 </a>
-                <ul class="navbar-links">
-                    <li><a asp-controller="FindRecipe" asp-action="Index">Find Recipes</a></li>
-                    <li><a asp-controller="Recipes" asp-action="Index">My Recipes</a></li>
-                    <li><a asp-controller="Recipes" asp-action="GenerateRecipe">Generate Recipe</a></li>
-                </ul>
-                <ul class="navbar-links">
-                    @if (User.Identity?.IsAuthenticated == true)
-                    {
-                        <li class="profile-dropdown">
-                            <details>
-                                <summary class="sign-in-btn">
-                                    <i class="bi bi-person-fill"></i> @User.Identity.Name
-                                </summary>
-                                <ul class="dropdown-list">
-                                    <li>
-                                        <form asp-controller="Account" asp-action="Logout" method="post">
-                                            @Html.AntiForgeryToken()
-                                            <button type="submit" class="dropdown-btn">Logout</button>
-                                        </form>
-                                    </li>
-                                </ul>
-                            </details>
-                        </li>
-                    }
-                    else
-                    {
-                        <li>
-                            <a class="sign-in-btn" asp-controller="Account" asp-action="Login">
-                                <i class="bi bi-person-fill"></i> Sign In
-                            </a>
-                        </li>
-                    }
-                </ul>
+
+                <!-- Collapsible content -->
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <div class="d-flex w-100 align-items-center justify-content-between">
+                        <a class="navbar-logo navbar-brand d-none d-md-flex" asp-controller="Home" asp-action="Index">
+                            <img src="~/Images/Recipedia-logo.png" alt="Recipedia Logo" />
+                        </a>
+
+                        <ul class="navbar-links navbar-nav mx-auto">
+                            <li class="nav-item"><a class="nav-link" asp-controller="FindRecipe" asp-action="Index">Find Recipes</a></li>
+                            <li class="nav-item"><a class="nav-link" asp-controller="Recipes" asp-action="Index">My Recipes</a></li>
+                            <li class="nav-item"><a class="nav-link" asp-controller="Recipes" asp-action="GenerateRecipe">Generate Recipe</a></li>
+                        </ul>
+
+                        <ul class="navbar-nav">
+                            @if (User.Identity?.IsAuthenticated == true)
+                            {
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                       data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="bi bi-person-fill"></i> @User.Identity.Name
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                                        <li>
+                                            <form asp-controller="Account" asp-action="Logout" method="post">
+                                                @Html.AntiForgeryToken()
+                                                <button type="submit" class="dropdown-item">Logout</button>
+                                            </form>
+                                        </li>
+                                    </ul>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="Account" asp-action="Login">
+                                        <i class="bi bi-person-fill"></i> Sign In
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
             </div>
         </nav>
     </header>

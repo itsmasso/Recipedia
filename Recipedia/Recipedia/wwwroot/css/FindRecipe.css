@@ -27,6 +27,7 @@
     font-size: 3.5rem;
     font-weight: 600;
     font-family: Lora;
+    text-align: center;
 }
 .input-header p {
     font-size: 1.4rem;
@@ -166,3 +167,29 @@
     color: #fff !important;
 }
 
+@media (max-width: 768px) {
+    .search-form {
+        width: 90%;
+        height: auto;
+    }
+    .input-container{
+        margin-top: 0;
+    }
+    .results-header {
+        padding: 2.3rem 2rem;
+        height: auto;
+        text-align: center;
+      
+    }
+    .results-header h3{
+        font-size: 1.8rem;
+    }
+    .input-header h1{
+        width: 90%;
+        font-size: 2.75rem;
+    }
+    .input-header p {
+        width: 90%;
+        font-size: 1.2rem;
+    }
+}

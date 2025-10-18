@@ -1,5 +1,8 @@
 ﻿@model Recipedia.Models.GenerateRecipeInputModel;
 
+@{
+	ViewData["Title"] = "Generate Recipe";
+}
 <div class="generate-recipe-body">
 	<div class="input-container">
 		<div class="input-header">
@@ -37,9 +40,10 @@
 			</div>
 			<input type="hidden" id="tagsHidden" name="IngredientsTags" asp-for="IngredientsTags" />
 		</form>
+		<p class="ai-disclaimer">Note: Recipes are generated using AI and may not always be accurate or suitable for all diets. 
+			Please use your own judgment when preparing and consuming food.
+		</p>
 		<script src="~/js/tagsInput.js"></script>
-		
-		
 	</div>
 	
 	

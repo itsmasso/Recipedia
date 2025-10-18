@@ -1,5 +1,8 @@
 ﻿@model Recipedia.Models.GeneratedRecipeResultDTO
 
+@{
+    ViewData["Title"] = "Generate Recipe";
+}
 <div class="generated-recipe-body">
     <div class="generated-recipe-header">
         <div>
@@ -12,14 +15,14 @@
             <div class="recipe-tags-container">
                 <div class="recipe-tag">
                     <i class="bi bi-clock"></i>
-                    <div>
+                    <div class="recipe-tag-text">
                         <span class="tag-title">Time</span>
                         <span class="tag-value">@Model.CookTimeMinutes minutes</span>
                     </div>
                 </div>
                 <div class="recipe-tag">
                     <i class="bi bi-star"></i>
-                    <div>
+                    <div class="recipe-tag-text">
                         <span class="tag-title">Difficulty</span>
                         <span class="tag-value">@Model.Difficulty</span>
                     </div>

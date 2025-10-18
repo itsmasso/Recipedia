@@ -1,6 +1,6 @@
 # Recipedia
 
-Recipedia is a modern recipe web application that lets you search, save, and generate recipes. Powered by **ASP.NET** and AI, it provides a seamless and fun cooking experience.
+Recipedia is a modern recipe web application that lets you search, save, and generate recipes. 
 
 ## Live Site
 

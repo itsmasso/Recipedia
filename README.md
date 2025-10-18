@@ -20,7 +20,7 @@ Check it out here: [Recipedia](https://recipedia.cc)
 - **Backend:** ASP.NET (MVC)  
 - **Frontend:** HTML, CSS, JavaScript  
 - **AI Integration:** Gemini AI  
-- **External APIs:** Google Custom Search Engine (CSE)  
+- **External APIs:** Google Custom Search Engine (CSE), Spoonacular  
 - **Deployment:** Docker, AWS
   
 ## License

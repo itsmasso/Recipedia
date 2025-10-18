@@ -17,7 +17,7 @@ Check it out here: [Recipedia](https://recipedia.cc)
 
 ## Tech Stack
 
-- **Backend:** ASP.NET (MVC)  
+- **Backend:** ASP.NET Core
 - **Frontend:** HTML, CSS, JavaScript  
 - **AI Integration:** Gemini AI
 - **Database:** SQL (SQL Server Management Studio)

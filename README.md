@@ -1,33 +1,32 @@
-Recipedia
+# Recipedia
 
-Recipedia is a modern recipe web application that lets you search, save, and generate recipes. Powered by ASP.NET and AI, it provides a seamless and fun cooking experience.
+Recipedia is a modern recipe web application that lets you search, save, and generate recipes. Powered by **ASP.NET** and AI, it provides a seamless and fun cooking experience.
 
-Live Site
+## Live Site
 
-Check it out here: recipedia.cc
+Check it out here: [Recipedia](recipedia.cc)  
 
-Features
+## Features
 
-Recipe Search – Find recipes online using Google Custom Search Engine (CSE).
+- **Recipe Search** – Find recipes online using Google Custom Search Engine (CSE).  
+- **AI-Generated Recipes** – Generate unique recipes using Gemini AI.  
+- **User Authentication** – Sign in securely with Google.  
+- **Save Favorites** – Keep your favorite recipes in one place.  
+- **Responsive Design** – Works on both desktop and mobile devices.  
+- **Cloud Deployment** – Hosted on AWS and containerized with Docker.  
 
-AI-Generated Recipes – Generate unique recipes using Gemini AI.
+## Tech Stack
 
-User Authentication – Sign in securely with Google.
+- **Backend:** ASP.NET (MVC)  
+- **Frontend:** HTML, CSS, JavaScript  
+- **AI Integration:** Gemini AI  
+- **External APIs:** Google Custom Search Engine (CSE)  
+- **Deployment:** Docker, AWS  
 
-Save Favorites – Keep your favorite recipes in one place.
+## Contributing
 
-Responsive Design – Works on both desktop and mobile devices.
+Contributions are welcome! Feel free to open issues or submit pull requests for improvements and features.  
 
-Cloud Deployment – Hosted on AWS and containerized with Docker.
+## License
 
-Tech Stack
-
-Backend: ASP.NET (MVC)
-
-Frontend: HTML, CSS, JavaScript
-
-AI Integration: Gemini AI
-
-External APIs: Google Custom Search Engine (CSE)
-
-Deployment: Docker, AWS
+This project is licensed under the MIT License.  

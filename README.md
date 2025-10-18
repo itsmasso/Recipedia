@@ -21,12 +21,8 @@ Check it out here: [Recipedia](https://recipedia.cc)
 - **Frontend:** HTML, CSS, JavaScript  
 - **AI Integration:** Gemini AI  
 - **External APIs:** Google Custom Search Engine (CSE)  
-- **Deployment:** Docker, AWS  
-
-## Contributing
-
-Contributions are welcome! Feel free to open issues or submit pull requests for improvements and features.  
-
+- **Deployment:** Docker, AWS
+- 
 ## License
 
 This project is licensed under the MIT License.  

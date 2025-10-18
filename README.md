@@ -19,7 +19,8 @@ Check it out here: [Recipedia](https://recipedia.cc)
 
 - **Backend:** ASP.NET (MVC)  
 - **Frontend:** HTML, CSS, JavaScript  
-- **AI Integration:** Gemini AI  
+- **AI Integration:** Gemini AI
+- - **Database:** SQL (Sql Server Management Studio)
 - **External APIs:** Google Custom Search Engine (CSE), Spoonacular  
 - **Deployment:** Docker, AWS
   

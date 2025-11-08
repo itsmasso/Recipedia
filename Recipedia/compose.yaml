@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  recipedia:
+    build: .
+    container_name: recipedia
+    ports:
+      - "8080:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - Authentication__Google__ClientId=${GOOGLE_CLIENT_ID}
+      - Authentication__Google__ClientSecret=${GOOGLE_CLIENT_SECRET}
+      - Gemini__ApiKey=${GEMINI_API_KEY}
+      - Gemini__BaseUrl=${GEMINI_BASE_URL}
+      - GoogleCSE__ApiKey=${GOOGLE_CSE_API_KEY}
+      - GoogleCSE__CseId=${GOOGLE_CSE_ID}
+      - Spoonacular__ApiKey=${SPOONACULAR_API_KEY}
+    volumes:
+      - recipedia-keys:/root/.aspnet/DataProtection-Keys
+      - recipedia-data:/app/data
+
+volumes:
+  recipedia-keys:
+  recipedia-data:

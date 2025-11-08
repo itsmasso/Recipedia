@@ -21,6 +21,7 @@ Before running locally, make sure you have:
 ```bash
 git clone https://github.com/YOUR_USERNAME/recipedia.git
 cd recipedia
+```
 
 ### 2) Open the compose.yaml file and input your api key values.
 ```yaml
@@ -46,17 +47,17 @@ services:
 volumes:
   recipedia-keys:
   recipedia-data:
-
+```
 ### (Optional) 3) Setup the local database by changing the default connection string.
 ```json
 "ConnectionStrings": {
   "DefaultConnection": "Server=localhost;Database=RecipediaDB;Trusted_Connection=True;TrustServerCertificate=True;"
 }
-
+```
 ### 4) Run the app
 ```bash
 docker compose up --build
-
+```
 ### 5) Open the browser and visit http://localhost:8080.
 
 ## Features

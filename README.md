@@ -48,7 +48,7 @@ volumes:
   recipedia-keys:
   recipedia-data:
 ```
-### (Optional) 3) Setup the local database by changing the default connection string.
+### (Optional) 3) Set up the local database by replacing the default connection string to your own.
 ```json
 "ConnectionStrings": {
   "DefaultConnection": "Server=localhost;Database=RecipediaDB;Trusted_Connection=True;TrustServerCertificate=True;"

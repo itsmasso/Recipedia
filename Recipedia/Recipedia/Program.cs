@@ -14,7 +14,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddDbContext<RecipediaAppContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddDbContext<RecipediaAppContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddHttpClient<IGeminiService, GeminiService>();
 builder.Services.AddHttpClient<GoogleSearchEngineService>();
 builder.Services.AddHttpClient<SpoonacularService>();
@@ -63,9 +63,9 @@ builder.Services.ConfigureApplicationCookie(options =>
 var isProd = builder.Environment.IsProduction();
 
 if (isProd)
-{
-    // Listen on all interfaces, port 80 for cloud
-    builder.WebHost.UseUrls("http://*:80");
+{   
+    // Use port provided in env or 8080
+    builder.WebHost.UseUrls("http://0.0.0.0:" + (Environment.GetEnvironmentVariable("PORT") ?? "8080"));
 }
 
 

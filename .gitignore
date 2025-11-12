@@ -145,4 +145,4 @@ $tf/
 *.stackdump
 *.swp
 *.DS_Store
-Recipedia/compose.yaml
+compose.yaml

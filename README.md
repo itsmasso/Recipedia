@@ -66,15 +66,14 @@ docker compose up --build
 - **User Authentication** – Sign in securely with Google.  
 - **Save Favorites** – Keep your favorite recipes in one place.  
 - **Responsive Design** – Works on both desktop and mobile devices.  
-- **Cloud Deployment** – Hosted on AWS and containerized with Docker.  
 
 ## Tech Stack
 - **Backend:** ASP.NET Core
 - **Frontend:** HTML, CSS, JavaScript  
 - **AI Integration:** Gemini AI
-- **Database:** SQL (SQL Server Management Studio)
+- **Database:** Postgresql (Migrated from Microsoft SQL Server)
 - **External APIs:** Google Custom Search Engine (CSE), Spoonacular, Google OAuth  
-- **Deployment:** Docker, AWS
+- **Deployment:** Docker, Render (Migrated from AWS to Render)
 
 ## License
 This project is licensed under the MIT License.  

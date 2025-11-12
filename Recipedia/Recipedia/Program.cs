@@ -11,16 +11,6 @@ using Rotativa.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var databaseUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
-if (!string.IsNullOrEmpty(databaseUrl))
-{
-    var uri = new Uri(databaseUrl);
-    var username = uri.UserInfo.Split(':')[0];
-    var password = uri.UserInfo.Split(':')[1];
-    var connectionString = $"Host={uri.Host};Port={uri.Port};Database={uri.AbsolutePath.TrimStart('/')};Username={username};Password={password};SSL Mode=Require;Trust Server Certificate=true";
-    builder.Configuration["ConnectionStrings:DefaultConnection"] = connectionString;
-}
-
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
@@ -46,6 +36,7 @@ builder.Services.AddIdentity<User, IdentityRole>(options =>
 .AddEntityFrameworkStores<RecipediaAppContext>()
 .AddDefaultTokenProviders();
 
+// Data Protection
 builder.Services.AddDataProtection()
     .SetApplicationName("Recipedia");
 
@@ -57,8 +48,8 @@ builder.Services.AddAuthentication(options =>
 .AddCookie(options =>
 {
     options.Cookie.SameSite = SameSiteMode.Lax;
-    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
     options.Cookie.IsEssential = true;
+    options.Cookie.HttpOnly = true;
 })
 .AddGoogle(googleOptions =>
 {
@@ -67,10 +58,11 @@ builder.Services.AddAuthentication(options =>
     googleOptions.SaveTokens = true;
     googleOptions.CallbackPath = "/signin-google";
 
-    // Fix correlation cookie issue
+    // Correlation cookie settings - try with Lax instead of None
     googleOptions.CorrelationCookie.SameSite = SameSiteMode.Lax;
-    googleOptions.CorrelationCookie.SecurePolicy = CookieSecurePolicy.Always;
     googleOptions.CorrelationCookie.IsEssential = true;
+    googleOptions.CorrelationCookie.HttpOnly = true;
+    googleOptions.CorrelationCookie.SecurePolicy = CookieSecurePolicy.Always;
 });
 
 // Configure application cookie
@@ -80,8 +72,8 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.LogoutPath = "/Account/Logout";
     options.AccessDeniedPath = "/Account/AccessDenied";
     options.Cookie.SameSite = SameSiteMode.Lax;
-    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
     options.Cookie.IsEssential = true;
+    options.Cookie.HttpOnly = true;
 });
 
 var isProd = builder.Environment.IsProduction();

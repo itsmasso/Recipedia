@@ -19,7 +19,5 @@
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.4" />
     <PackageReference Include="Rotativa.AspNetCore" Version="1.4.0" />
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="wwwroot\**\*" CopyToPublishDirectory="PreserveNewest" />
-  </ItemGroup>
+
 </Project>

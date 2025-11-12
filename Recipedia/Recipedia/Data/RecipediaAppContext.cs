@@ -2,6 +2,8 @@
 using Recipedia.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+
+
 namespace Recipedia.Data
 {
     public class RecipediaAppContext : IdentityDbContext<User>

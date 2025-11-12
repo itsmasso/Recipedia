@@ -46,9 +46,7 @@ builder.Services.AddIdentity<User, IdentityRole>(options =>
 .AddEntityFrameworkStores<RecipediaAppContext>()
 .AddDefaultTokenProviders();
 
-// Data Protection - store keys in database instead of file system
 builder.Services.AddDataProtection()
-    .PersistKeysToFileSystem(new DirectoryInfo("/keys"))
     .SetApplicationName("Recipedia");
 
 // Configure Authentication

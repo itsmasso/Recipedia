@@ -1,10 +1,10 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.DataProtection;
-using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.HttpOverrides;
 using Recipedia.Data;
 using Recipedia.Data.Services;
 using Recipedia.Models;
@@ -12,7 +12,14 @@ using Rotativa.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Configure forwarded headers for Render's proxy
+builder.Services.Configure<ForwardedHeadersOptions>(options =>
+{
+    options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+    options.KnownNetworks.Clear();
+    options.KnownProxies.Clear();
+});
+
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<RecipediaAppContext>(options =>
@@ -22,35 +29,32 @@ builder.Services.AddHttpClient<IGeminiService, GeminiService>();
 builder.Services.AddHttpClient<GoogleSearchEngineService>();
 builder.Services.AddHttpClient<SpoonacularService>();
 
-// Add Identity
 builder.Services.AddIdentity<User, IdentityRole>(options =>
 {
-    // Password settings (optional - adjust as needed)
     options.Password.RequireDigit = false;
     options.Password.RequireLowercase = false;
     options.Password.RequireUppercase = false;
     options.Password.RequireNonAlphanumeric = false;
     options.Password.RequiredLength = 6;
-    // User settings
     options.User.RequireUniqueEmail = true;
 })
 .AddEntityFrameworkStores<RecipediaAppContext>()
 .AddDefaultTokenProviders();
 
-// Data Protection
 builder.Services.AddDataProtection()
     .SetApplicationName("Recipedia");
 
-// Configure Authentication
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
 })
 .AddCookie(options =>
 {
-    options.Cookie.SameSite = SameSiteMode.Lax;
+    options.Cookie.SameSite = SameSiteMode.None;
+    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
     options.Cookie.IsEssential = true;
     options.Cookie.HttpOnly = true;
+    options.Cookie.Domain = ".recipedia.cc"; // Explicit domain
 })
 .AddGoogle(googleOptions =>
 {
@@ -59,32 +63,36 @@ builder.Services.AddAuthentication(options =>
     googleOptions.SaveTokens = true;
     googleOptions.CallbackPath = "/signin-google";
 
-    // Correlation cookie settings - try with Lax instead of None
-    googleOptions.CorrelationCookie.SameSite = SameSiteMode.Lax;
+    // Explicit correlation cookie settings
+    googleOptions.CorrelationCookie.SameSite = SameSiteMode.None;
+    googleOptions.CorrelationCookie.SecurePolicy = CookieSecurePolicy.Always;
     googleOptions.CorrelationCookie.IsEssential = true;
     googleOptions.CorrelationCookie.HttpOnly = true;
-    googleOptions.CorrelationCookie.SecurePolicy = CookieSecurePolicy.Always;
+    googleOptions.CorrelationCookie.Domain = ".recipedia.cc"; // Explicit domain
 });
 
-// Configure application cookie
 builder.Services.ConfigureApplicationCookie(options =>
 {
     options.LoginPath = "/Account/Login";
     options.LogoutPath = "/Account/Logout";
     options.AccessDeniedPath = "/Account/AccessDenied";
-    options.Cookie.SameSite = SameSiteMode.Lax;
+    options.Cookie.SameSite = SameSiteMode.None;
+    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
     options.Cookie.IsEssential = true;
     options.Cookie.HttpOnly = true;
+    options.Cookie.Domain = ".recipedia.cc"; // Explicit domain
 });
 
 var isProd = builder.Environment.IsProduction();
 if (isProd)
 {
-    // Use port provided in env or 8080
     builder.WebHost.UseUrls("http://0.0.0.0:" + (Environment.GetEnvironmentVariable("PORT") ?? "8080"));
 }
 
 var app = builder.Build();
+
+// MUST be first middleware!
+app.UseForwardedHeaders();
 
 // Auto-run migrations on startup
 using (var scope = app.Services.CreateScope())
@@ -104,14 +112,13 @@ using (var scope = app.Services.CreateScope())
 
 RotativaConfiguration.Setup(app.Environment.WebRootPath, "Rotativa/Windows");
 
-// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
     app.UseHsts();
 }
 
-//app.UseHttpsRedirection();
+app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthentication();

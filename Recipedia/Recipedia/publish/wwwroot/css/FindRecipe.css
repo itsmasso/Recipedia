@@ -1,0 +1,195 @@
+﻿.find-recipe-wrapper {
+
+    display: flex;
+    flex-direction: column;
+    gap: 5rem;
+    /*background-color: #faf5f1;*/
+}
+.input-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2.5rem;
+    margin-top: 3rem;
+    padding: 4rem 0rem;
+}
+
+.input-header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #1b2628;
+}
+
+.input-header h1 {
+    font-size: 3.5rem;
+    font-weight: 600;
+    font-family: Lora;
+    text-align: center;
+}
+.input-header p {
+    font-size: 1.4rem;
+    text-align: center;
+    width: 70%;
+    font-weight: 400;
+    font-family: Lora;
+}
+
+.search-form{
+    width: 50rem;
+    height: 9rem;  
+}
+.input-wrapper {
+    height: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.ingredient-textarea {
+    position: relative;
+    width: 100%;
+    min-height: 160px;
+    /*border: 1px solid #305fc7;*/
+    border-radius: 13px;
+    background-color: #fff;
+    font-size: 1rem;
+    font-family: inherit;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    overflow: hidden;
+    padding: 12px;
+    box-sizing: border-box;
+    padding-bottom: 48px; /* leave space for button */
+}
+
+.textarea-content {
+    flex-grow: 1;
+    overflow-y: auto;
+   
+}
+.results-container{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.results-header {
+    height: 200px;
+    display: flex;
+    align-items: center;
+    background-color: #8faa67;
+    width: 100%;
+    padding: 0rem 10rem;
+    font-family: Lora;
+}
+
+.results-header h3{
+    font-size: 2.4rem;
+    font-weight: 600;
+    color: white;
+}
+
+.editable:empty::before {
+    content: attr(data-placeholder);
+    color: #aaa;
+    pointer-events: none;
+}
+
+.editable {
+    outline: none;
+    min-height: 1.4em;
+    line-height: 1.4;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+#tagsContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-top: 7px;
+}
+
+.tag {
+    display: inline-flex;
+    align-items: center;
+    background-color: #729c36;
+    color: #fff;
+    border-radius: 8px;
+    padding: 4px 8px;
+    margin: 4px;
+    font-size: 0.9rem;
+    gap: 4px;
+    user-select: none;
+}
+
+
+.tag .tag-remove {
+    cursor: pointer;
+    font-size: 0.9rem;
+    opacity: 0.8;
+    transition: opacity 0.2s ease;
+}
+
+.tag .tag-remove:hover {
+    opacity: 1;
+    color: white;
+}
+.btn-submit {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    background-color: #729c36;
+    color: white;
+    border: none;
+    padding: 5px 14px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-submit:hover {
+    background-color: #b9cb98;
+}
+
+.btn-submit i {
+    margin-right: 3px;
+
+}
+.alert-success {
+    background-color: #8faa67;
+    border-color: #8faa67 !important;
+    color: #fff !important;
+}
+
+@media (max-width: 768px) {
+    .search-form {
+        width: 90%;
+        height: auto;
+    }
+    .input-container{
+        margin-top: 0;
+    }
+    .results-header {
+        padding: 2.3rem 2rem;
+        height: auto;
+        text-align: center;
+      
+    }
+    .results-header h3{
+        font-size: 1.8rem;
+    }
+    .input-header h1{
+        width: 90%;
+        font-size: 2.75rem;
+    }
+    .input-header p {
+        width: 90%;
+        font-size: 1.2rem;
+    }
+}

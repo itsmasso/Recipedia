@@ -6,13 +6,13 @@ services:
       - "8080:80"
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
-      - Authentication__Google__ClientId=
-      - Authentication__Google__ClientSecret=
-      - Gemini__ApiKey=
-      - Gemini__BaseUrl=
-      - GoogleCSE__ApiKey=
-      - GoogleCSE__CseId=
-      - Spoonacular__ApiKey=
+      - Authentication__Google__ClientId=912030872786-bj7qrerp5gpnf92lhrvt2usbrqgv5ltt.apps.googleusercontent.com
+      - Authentication__Google__ClientSecret=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
+      - Gemini__ApiKey=AIzaSyAjOQtATLtRFNtP4jTtQWgo2Hzu1Pe5jm8
+      - Gemini__BaseUrl=https://generativelanguage.googleapis.com/v1beta/
+      - GoogleCSE__ApiKey=AIzaSyAkSDPIN5VsO6IyswuNf9MFeY9zyzQljds
+      - GoogleCSE__CseId=666f366305792460d
+      - Spoonacular__ApiKey=33918d5112914b07ba2fbf2318ff9ce8
     volumes:
       - recipedia-keys:/root/.aspnet/DataProtection-Keys
       - recipedia-data:/app/data
@@ -20,3 +20,4 @@ services:
 volumes:
   recipedia-keys:
   recipedia-data:
+

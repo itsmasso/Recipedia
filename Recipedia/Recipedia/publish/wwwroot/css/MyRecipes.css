@@ -1,0 +1,32 @@
+﻿.myrecipes-header {
+    height: 200px;
+    display: flex;
+    align-items: center;
+    background-color: #8faa67;
+    width: 100%;
+    padding: 0rem 10rem;
+    font-family: Lora;
+}
+.myrecipes-header h1 {
+    font-size: 3.8rem;
+    color: white;
+    font-weight: 600;
+}
+
+.no-recipes{
+    font-size: 1.2rem;
+    color: dimgray;
+    padding: 2rem 2rem;
+}
+@media (max-width: 768px) {
+    .myrecipes-header {
+        padding: 0rem 2rem;
+    }
+    .myrecipes-header h1 {
+        font-size: 2.75rem;
+    }
+    .no-recipes p{
+        font-size: 1rem;
+      
+    }
+}

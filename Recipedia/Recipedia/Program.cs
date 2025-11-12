@@ -12,6 +12,17 @@ using Rotativa.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var databaseUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
+if (!string.IsNullOrEmpty(databaseUrl))
+{
+    var uri = new Uri(databaseUrl);
+    var username = uri.UserInfo.Split(':')[0];
+    var password = uri.UserInfo.Split(':')[1];
+
+    var connectionString = $"Host={uri.Host};Port={uri.Port};Database={uri.AbsolutePath.TrimStart('/')};Username={username};Password={password};SSL Mode=Require;Trust Server Certificate=true";
+
+    builder.Configuration["ConnectionStrings:DefaultConnection"] = connectionString;
+}
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<RecipediaAppContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));

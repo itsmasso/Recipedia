@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -22,7 +22,7 @@ namespace Recipedia.Controllers
             _userManager = userManager;
         }
 
-        // GET: /Recipes - Shows only current user's recipes, requires login
+        // shows the current recipes the user had saved
         [Authorize]
         public async Task<IActionResult> Index()
         {

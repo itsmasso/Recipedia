@@ -81,6 +81,21 @@ if (isProd)
 
 
 var app = builder.Build();
+// Auto-run migrations on startup
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    try
+    {
+        var context = services.GetRequiredService<RecipediaAppContext>();
+        context.Database.Migrate();
+    }
+    catch (Exception ex)
+    {
+        var logger = services.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "An error occurred while migrating the database.");
+    }
+}
 RotativaConfiguration.Setup(app.Environment.WebRootPath, "Rotativa/Windows");
 
 // Configure the HTTP request pipeline.

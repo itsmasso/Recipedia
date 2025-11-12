@@ -2,18 +2,18 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
-COPY ["Recipedia.sln", "./"]
-COPY ["Recipedia/Recipedia.csproj", "Recipedia/"]
+# Copy the solution and project files
+COPY Recipedia/Recipedia.sln ./
+COPY Recipedia/Recipedia.csproj ./
 
-RUN dotnet restore "Recipedia/Recipedia.csproj"
+# Restore dependencies
+RUN dotnet restore "Recipedia.csproj"
 
-COPY Recipedia/ Recipedia/
-RUN dotnet publish "Recipedia/Recipedia.csproj" -c Release -o /app/publish
+# Copy the rest of the app
+COPY Recipedia/ ./
 
-# Runtime stage
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
-WORKDIR /app
-COPY --from=build /app/publish .
+# Build and publish
+RUN dotnet publish "Recipedia.csproj" -c Release -o /app/publish
 
 # Use Render's dynamic port
 ENV ASPNETCORE_URLS=http://0.0.0.0:${PORT:-8080}

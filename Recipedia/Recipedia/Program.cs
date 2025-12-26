@@ -12,6 +12,14 @@ using Rotativa.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+if (builder.Environment.IsProduction())
+{
+    builder.Configuration.Sources
+        .OfType<FileConfigurationSource>()
+        .ToList()
+        .ForEach(s => s.ReloadOnChange = false);
+}
+
 // Configure forwarded headers for Render's proxy
 builder.Services.Configure<ForwardedHeadersOptions>(options =>
 {

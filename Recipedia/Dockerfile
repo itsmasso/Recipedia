@@ -25,7 +25,7 @@ COPY --from=build /app/publish .
 ENV DOTNET_USE_POLLING_FILE_WATCHER=true
 
 # Use Render's dynamic port
-ENV ASPNETCORE_URLS=http://0.0.0.0:${PORT:-8080}
+ENV ASPNETCORE_URLS=http://0.0.0.0:8080
 EXPOSE 8080
 
 ENTRYPOINT ["dotnet", "Recipedia.dll"]

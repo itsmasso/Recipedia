@@ -3,7 +3,7 @@
 Recipedia is a modern recipe web application that lets you search, save, and generate recipes. 
 
 ## Live Site
-Check it out here if the site is currently up: [Recipedia](https://recipedia.cc) 
+Check it out here if the site is currently up: https://recipedia-avbk.onrender.com/
 
 ## Run Locally
 If the website is no longer available, you can run it locally on your machine using Docker. 

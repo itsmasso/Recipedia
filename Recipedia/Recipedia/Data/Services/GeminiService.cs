@@ -78,14 +78,19 @@ namespace Recipedia.Data.Services
 					"application/json"
 				);
 
-				//send request
-				var response = await _http.SendAsync(httpRequest);
-				var responseContent = await response.Content.ReadAsStringAsync();
+                //send request
+                var response = await _http.SendAsync(httpRequest);
+                var responseContent = await response.Content.ReadAsStringAsync();
 
-				response.EnsureSuccessStatusCode();
+                if (!response.IsSuccessStatusCode)
+                {
+                    Debug.WriteLine($"Gemini status: {(int)response.StatusCode}");
+                    Debug.WriteLine($"Gemini error body: {responseContent}");
+                    return CreateFallbackRecipe($"API Error {(int)response.StatusCode}: {responseContent}");
+                }
 
-				//Parse Gemini API response
-				using var doc = JsonDocument.Parse(responseContent);
+                //Parse Gemini API response
+                using var doc = JsonDocument.Parse(responseContent);
 				var content = doc.RootElement
 					.GetProperty("candidates")[0]
 					.GetProperty("content")

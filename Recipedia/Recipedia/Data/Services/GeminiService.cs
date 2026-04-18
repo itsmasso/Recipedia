@@ -72,7 +72,7 @@ namespace Recipedia.Data.Services
 				};
 
 				//Create HTTP request
-				string url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent";
+				string url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent";
 				var httpRequest = new HttpRequestMessage(HttpMethod.Post, url);
 				httpRequest.Headers.Add("X-goog-api-key", _apiKey);
 				httpRequest.Content = new StringContent(

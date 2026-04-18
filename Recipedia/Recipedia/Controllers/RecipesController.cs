@@ -124,7 +124,7 @@ namespace Recipedia.Controllers
                 int used = HttpContext.Session.GetInt32("AnonymousRecipeCount") ?? 0;
                 if( used >= anonymousUserLimit)
                 {
-                    ViewBag.ErrorMessage = "You've reached the guest limit.";
+                    ViewBag.ErrorMessage = "You've reached the qouta limit.";
                     return View(input);
                 }
                 HttpContext.Session.SetInt32("AnonymousRecipeCount", used + 1);

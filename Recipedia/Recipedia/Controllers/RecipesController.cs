@@ -119,12 +119,12 @@ namespace Recipedia.Controllers
 			}
 
             const int anonymousUserLimit = 3;
-            if (!User.Identity.IsAuthenticated)
+            if (!(User.Identity?.IsAuthenticated ?? false))
             {
                 int used = HttpContext.Session.GetInt32("AnonymousRecipeCount") ?? 0;
                 if( used >= anonymousUserLimit)
                 {
-                    ViewBag.Error = "You've reached the guest limit.";
+                    ViewBag.ErrorMessage = "You've reached the guest limit.";
                     return View(input);
                 }
                 HttpContext.Session.SetInt32("AnonymousRecipeCount", used + 1);
@@ -134,8 +134,8 @@ namespace Recipedia.Controllers
             var recipe = await _geminiService.GenerateRecipeAsync(input.IngredientsTags, input.Category, input.Difficulty);
             if (recipe == null)
             {
-                ViewBag.Error = "Failed to generate recipe. Please try again.";
-                return View();
+                ViewBag.ErrorMessage = "Failed to generate recipe. Please try again.";
+                return View(input);
             }
 			TempData["RecipeForPdf"] = JsonSerializer.Serialize(recipe);
             return View("GeneratedRecipeResult", recipe);

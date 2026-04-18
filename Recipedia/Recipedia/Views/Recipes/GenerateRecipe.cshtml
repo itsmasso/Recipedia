@@ -8,6 +8,12 @@
 		<div class="input-header">
 			<h1>Free Recipe AI Generator</h1>
 			<p>Type in your ingredients and we’ll generate recipe ideas you can make right now. No registration is required.</p>
+			@if(ViewBag.ErrorMessage != null)
+			{
+				<div class="error-message">
+					@ViewBag.ErrorMessage
+				</div>
+			}
 		</div>
 		<form asp-action="GenerateRecipe" method="post" class="search-form">
 			@Html.AntiForgeryToken()

@@ -118,8 +118,20 @@ namespace Recipedia.Controllers
 				return View(input);
 			}
 
-			//call and fetch gemini
-			var recipe = await _geminiService.GenerateRecipeAsync(input.IngredientsTags, input.Category, input.Difficulty);
+            const int anonymousUserLimit = 3;
+            if (!User.Identity.IsAuthenticated)
+            {
+                int used = HttpContext.Session.GetInt32("AnonymousRecipeCount") ?? 0;
+                if( used >= anonymousUserLimit)
+                {
+                    ViewBag.Error = "You've reached the guest limit.";
+                    return View(input);
+                }
+                HttpContext.Session.SetInt32("AnonymousRecipeCount", used + 1);
+            }
+
+            //call and fetch gemini
+            var recipe = await _geminiService.GenerateRecipeAsync(input.IngredientsTags, input.Category, input.Difficulty);
             if (recipe == null)
             {
                 ViewBag.Error = "Failed to generate recipe. Please try again.";

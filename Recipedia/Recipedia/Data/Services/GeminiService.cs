@@ -9,18 +9,24 @@ namespace Recipedia.Data.Services
 {
 	public class GeminiService : IGeminiService
 	{
+		// Services and config
 		private readonly HttpClient _http;
-		private readonly string _apiKey;
+		private readonly ILogger<GeminiService> _logger;
+		private readonly string? _apiKey;
 
 		private static readonly string[] Categories = { "Dessert", "Dinner", "Lunch", "Snack", "Breakfast", "Drink" };
 		private static readonly string[] Difficulties = { "Easy", "Medium", "Hard" };
 
-		public GeminiService(HttpClient http, IConfiguration config)
+		public GeminiService(HttpClient http, IConfiguration config, ILogger<GeminiService> logger)
 		{
 			_http = http;
+			_logger = logger;
 			_apiKey = config["Gemini:ApiKey"];
 		}
 
+		/// <summary>
+		/// Generates a recipe from the submitted inputs and returns a fallback recipe if Gemini cannot provide valid JSON.
+		/// </summary>
 		public async Task<GeneratedRecipeResultDTO> GenerateRecipeAsync(string ingredients, string category, string difficulty)
 		{
 			try
@@ -68,6 +74,7 @@ namespace Recipedia.Data.Services
 						topK = 40,
 						topP = 0.95,
 						maxOutputTokens = 1024,
+						responseMimeType = "application/json"
 					}
 				};
 
@@ -87,8 +94,7 @@ namespace Recipedia.Data.Services
 
                 if (!response.IsSuccessStatusCode)
                 {
-                    Debug.WriteLine($"Gemini status: {(int)response.StatusCode}");
-                    Debug.WriteLine($"Gemini error body: {responseContent}");
+                    _logger.LogError("Gemini request failed. StatusCode: {StatusCode}, ResponseBody: {ResponseBody}", (int)response.StatusCode, responseContent);
                     return CreateFallbackRecipe($"API Error {(int)response.StatusCode}: {responseContent}");
                 }
 
@@ -105,14 +111,8 @@ namespace Recipedia.Data.Services
 				{
 					return CreateFallbackRecipe("No content generated");
 				}
-				Debug.WriteLine(content);
-				//Clean and parse JSON response
-				var jsonStart = content.IndexOf('{');
-				var jsonEnd = content.LastIndexOf('}');
-				if (jsonStart >= 0 && jsonEnd > jsonStart)
-				{
-					content = content.Substring(jsonStart, jsonEnd - jsonStart + 1);
-				}
+				_logger.LogInformation("Gemini generated recipe content: {Content}", content);
+				content = CleanGeneratedJson(content);
 
                 var generatedRecipe = JsonSerializer.Deserialize<GeneratedRecipeResultDTO>(content)
                       ?? new GeneratedRecipeResultDTO();
@@ -124,21 +124,50 @@ namespace Recipedia.Data.Services
 			}
 			catch (HttpRequestException ex)
 			{
-				Debug.WriteLine($"HTTP Error: {ex.Message}");
+				_logger.LogError(ex, "Gemini HTTP request failed.");
 				return CreateFallbackRecipe($"API Error: {ex.Message}");
 			}
 			catch (JsonException ex)
 			{
-				Debug.WriteLine($"JSON Parse Error: {ex.Message}");
+				_logger.LogError(ex, "Gemini JSON parse failed.");
 				return CreateFallbackRecipe($"Parse Error: {ex.Message}");
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine($"General Error: {ex.Message}");
+				_logger.LogError(ex, "Gemini recipe generation failed.");
 				return CreateFallbackRecipe($"Error: {ex.Message}");
 			}
 		}
 
+		/// <summary>
+		/// Removes Markdown code fences and extracts the JSON object from a model response.
+		/// </summary>
+		private string CleanGeneratedJson(string content)
+		{
+			var cleaned = content.Trim();
+
+			if (cleaned.StartsWith("```"))
+			{
+				var firstNewLine = cleaned.IndexOf('\n');
+				if (firstNewLine >= 0)
+					cleaned = cleaned.Substring(firstNewLine + 1).Trim();
+
+				if (cleaned.EndsWith("```"))
+					cleaned = cleaned.Substring(0, cleaned.Length - 3).Trim();
+			}
+
+			var jsonStart = cleaned.IndexOf('{');
+			var jsonEnd = cleaned.LastIndexOf('}');
+			if (jsonStart >= 0 && jsonEnd > jsonStart)
+				return cleaned.Substring(jsonStart, jsonEnd - jsonStart + 1);
+
+			_logger.LogError("Gemini response did not contain a JSON object. Content: {Content}", content);
+			return cleaned;
+		}
+
+		/// <summary>
+		/// Creates a placeholder recipe with the error message attached to the instructions.
+		/// </summary>
 		private GeneratedRecipeResultDTO CreateFallbackRecipe(string error)
 		{
 			return new GeneratedRecipeResultDTO

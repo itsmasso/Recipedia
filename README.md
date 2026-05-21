@@ -4,6 +4,7 @@ Recipedia is a modern recipe web application that lets you search, save, and gen
 
 ## Live Site
 Check it out here if the site is currently up: https://recipedia-avbk.onrender.com/
+(Note: Sign-in currently does not work publicly anymore due to costs)
 
 ## Run Locally
 If the website is no longer available, you can run it locally on your machine using Docker. 
@@ -12,7 +13,7 @@ Before running locally, make sure you have:
 - [Docker Desktop](https://www.docker.com/products/docker-desktop)
 - API keys for (all free):
   - Gemini API
-  - [Google Custom Search (CSE)](https://programmablesearchengine.google.com/controlpanel/create)
+  - Tavily
   - [Spoonacular](https://spoonacular.com/food-api)
   - Google OAuth + A local SQL Server Instance (Optional, only if you want to test login functionality locally)
 ---
@@ -37,8 +38,7 @@ services:
       - Authentication__Google__ClientSecret=${GOOGLE_CLIENT_SECRET}
       - Gemini__ApiKey=${GEMINI_API_KEY}
       - Gemini__BaseUrl=${GEMINI_BASE_URL}
-      - GoogleCSE__ApiKey=${GOOGLE_CSE_API_KEY}
-      - GoogleCSE__CseId=${GOOGLE_CSE_ID}
+      - Tavily__ApiKey=${TAVILY_API_KEY}
       - Spoonacular__ApiKey=${SPOONACULAR_API_KEY}
     volumes:
       - recipedia-keys:/root/.aspnet/DataProtection-Keys
@@ -73,7 +73,7 @@ docker compose up --build
 - **Frontend:** HTML, CSS, JavaScript  
 - **AI Integration:** Gemini AI
 - **Database:** SQL (SQL Server Management Studio)
-- **External APIs:** Google Custom Search Engine (CSE), Spoonacular, Google OAuth  
+- **External APIs:** Tavily, Spoonacular, Google OAuth  
 - **Deployment:** Docker, AWS
 
 ## License

@@ -34,7 +34,7 @@ builder.Services.AddDbContext<RecipediaAppContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddHttpClient<IGeminiService, GeminiService>();
-builder.Services.AddHttpClient<GoogleSearchEngineService>();
+builder.Services.AddHttpClient<SearchEngineService>();
 builder.Services.AddHttpClient<SpoonacularService>();
 
 builder.Services.AddIdentity<User, IdentityRole>(options =>

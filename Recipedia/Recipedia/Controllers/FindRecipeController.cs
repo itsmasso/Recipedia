@@ -10,13 +10,13 @@ namespace Recipedia.Controllers
 {
     public class FindRecipeController : Controller
     {
-        private readonly GoogleSearchEngineService _googleCSEService;
+        private readonly SearchEngineService _googleCSEService;
         private readonly SpoonacularService _spoonacularService;
         private readonly RecipediaAppContext _context;
         private readonly UserManager<User> _userManager;
 
         public FindRecipeController(
-            GoogleSearchEngineService googleCSEService,
+            SearchEngineService googleCSEService,
             SpoonacularService spoonacularService,
             RecipediaAppContext context,
             UserManager<User> userManager)
@@ -32,7 +32,10 @@ namespace Recipedia.Controllers
             return View();
         }
 
-        [HttpPost]
+        /// <summary>
+        /// Validates the submitted ingredients and renders matching web recipe results.
+        /// </summary>
+        [HttpGet]
         public async Task<IActionResult> Search(string ingredients)
         {
             if (string.IsNullOrWhiteSpace(ingredients))
